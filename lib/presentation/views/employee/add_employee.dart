@@ -6,7 +6,7 @@ import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/jobs_model.dart';
-import 'package:project_emp/data/models/todo_model.dart'; 
+import 'package:project_emp/data/models/todo_model.dart';
 import 'package:project_emp/presentation/widgets/date_picker.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
@@ -90,6 +90,7 @@ class _AddTodoState extends State<AddTodo> {
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: "Employee Name",
+                    isDense: true,
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.person_2_outlined),
                   ),
@@ -97,11 +98,15 @@ class _AddTodoState extends State<AddTodo> {
                       (value) => value!.isEmpty ? "Please enter name" : null,
                   onChanged: (value) => todo.name = value,
                 ),
+                const SizedBox(height: defaultGapping),
                 TextFormField(
+                  readOnly: true,
                   decoration: const InputDecoration(
-                    hintText: "Employee Name",
+                    hintText: 'Select Role',
+                    isDense: true,
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person_2_outlined),
+                    prefixIcon: Icon(Icons.work_outline),
+                    suffixIcon: Icon(Icons.arrow_drop_down),
                   ),
                   onTap: () {
                     JobSelectionBottomSheet.showJobSelectionSheet(
@@ -114,29 +119,7 @@ class _AddTodoState extends State<AddTodo> {
                   onChanged: (value) => todo.name = value,
                 ),
                 const SizedBox(height: defaultGapping),
-                DropdownButtonFormField<Job>(
-                  decoration: const InputDecoration(
-                    isDense: true,
-                    // labelText: "Role",
-                    hintText: 'Select Role',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.work_outline),
-                  ),
-                  items:
-                      sampleJobs.map((job) {
-                        return DropdownMenuItem(
-                          value: job,
-                          child: Text(job.title),
-                        );
-                      }).toList(),
-                  onChanged: (value) {
-                    // Handle selection
-                  },
-                  validator:
-                      (value) => value == null ? "Please select a Role" : null,
-                ),
 
-                const SizedBox(height: defaultGapping),
                 Row(
                   children: [
                     Flexible(

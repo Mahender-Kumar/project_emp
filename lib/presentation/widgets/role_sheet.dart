@@ -10,7 +10,6 @@ class JobSelectionBottomSheet {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      // showDragHandle: true,
       enableDrag: true,
       isDismissible: true,
       useRootNavigator: true,
@@ -28,10 +27,10 @@ class JobSelectionBottomSheet {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // BLoC/Cubit-based dropdown will be implemented here
-              ListView.builder(
+              ListView.separated(
                 shrinkWrap: true,
                 itemCount: sampleJobs.length,
+                separatorBuilder: (context, index) => const Divider(height: 0),
                 itemBuilder: (context, index) {
                   final job = sampleJobs[index];
                   return ListTile(
