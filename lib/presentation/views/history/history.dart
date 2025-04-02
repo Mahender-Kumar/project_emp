@@ -7,7 +7,6 @@ import 'package:project_emp/blocs/history/history_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/todo_model.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
-import 'package:project_emp/presentation/widgets/priority_badge.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class HistoryPage extends StatefulWidget {
