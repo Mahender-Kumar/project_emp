@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/data/models/todo_model.dart';
+import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/views/history/history.dart';
 
@@ -61,39 +61,7 @@ class TrashPage extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final todo = Employee.fromMap(deletedTodos[index]);
 
-                  return TodoExpansionTile(
-                    todo: todo,
-
-                    trailingIcon: PopupMenuButton(
-                      onSelected: (value) {
-                        switch (value) {
-                          case 'restore':
-                            // todo.restoredAt = Timestamp.now();
-                            // todo.timestamp = Timestamp.now();
-                            // todo.isRestored = true;
-                            // _firestore.restoreDeletedTodo(todo);
-
-                            break;
-
-                          default:
-                        }
-                      },
-                      itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            value: 'restore',
-                            height: popupMenuButtonHeight,
-
-                            child: ListTile(
-                              dense: true,
-                              trailing: const Icon(Icons.restore),
-                              title: Text('Restore'),
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  );
+                  return EmployeeTile(employee: todo);
                 }, childCount: deletedTodos.length),
               );
             },

@@ -22,7 +22,7 @@ class AddEmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
         event.employee,
         tags: generateTags(event.employee.name),
       );
-      emit(EmployeeSuccess());
+      // emit(EmployeeSuccess());
     } catch (e) {
       emit(EmployeeFailure(e.toString()));
     }

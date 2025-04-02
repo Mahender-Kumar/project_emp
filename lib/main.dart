@@ -11,6 +11,7 @@ import 'package:project_emp/blocs/theme/theme_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/core/configs/size_config.dart';
 import 'package:project_emp/core/router/app_router.dart';
+import 'package:project_emp/emploee_bloc.dart';
 import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ThemeBloc()..add(SetInitialTheme())),
         BlocProvider(create: (context) => HistoryBloc(FirestoreService())),
         BlocProvider(create: (context) => AuthBloc(AuthService())),
+        BlocProvider(create: (_) => EmployeeBloc()..add(LoadEmployees())),
       ],
       child: BlocBuilder<ThemeBloc, ThemeMode>(
         builder: (context, state) {

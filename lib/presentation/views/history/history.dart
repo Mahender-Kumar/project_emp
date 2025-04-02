@@ -5,7 +5,9 @@ import 'package:project_emp/blocs/history/history_bloc.dart';
 import 'package:project_emp/blocs/history/history_event.dart';
 import 'package:project_emp/blocs/history/history_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/data/models/todo_model.dart'; 
+import 'package:project_emp/data/enum/status.dart';
+import 'package:project_emp/data/models/employee_model.dart';
+import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -81,7 +83,7 @@ class HistoryPageState extends State<HistoryPage> {
                         final historyTodo = Employee.fromMap(
                           historyItems[index],
                         );
-                        return TodoExpansionTile(todo: historyTodo);
+                        return EmployeeTile(employee: historyTodo);
                       },
                     );
                   }
@@ -98,16 +100,10 @@ class HistoryPageState extends State<HistoryPage> {
   }
 }
 
-class TodoExpansionTile extends StatelessWidget {
-  final Employee todo;
-  final Widget? trailingIcon;
-  final Widget? leadingIcon;
-  const TodoExpansionTile({
-    super.key,
-    required this.todo,
-    this.trailingIcon,
-    this.leadingIcon,
-  });
+class EmployeeTile extends StatelessWidget {
+  final Employee employee;
+
+  const EmployeeTile({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {
@@ -115,126 +111,136 @@ class TodoExpansionTile extends StatelessWidget {
       create: (_) => HistoryExpansionTileBloc(),
       child: BlocBuilder<HistoryExpansionTileBloc, HistoryExpansionTileState>(
         builder: (context, state) {
-          final isExpanded = (state as HistoryTileExpanded).isExpanded;
-          return Card(
-            // shape: RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.circular(10),
-            // ),
-            elevation: 2,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ListTile(
-                  onTap: () {
-                    context.read<HistoryExpansionTileBloc>().add(
-                      ToggleExpansionEvent(),
-                    );
-                  },
-                  leading:
-                      leadingIcon ??
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(btnRadius / 2),
-                          color: Theme.of(context).colorScheme.primary,
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Dismissible(
+                key: Key('${employee.id}'), // Unique key for dismissing
+                direction:
+                    DismissDirection.endToStart, // Swipe from right to left
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  child: const Icon(
+                    Icons.delete_forever_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+                confirmDismiss: (direction) async {
+                  return await showDialog(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: const Text("Confirm Deletion"),
+                          content: const Text(
+                            "Are you sure you want to delete this employee?",
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text(
+                                "Delete",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Icon(
-                          Icons.check,
-                          size: 18,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  );
+                },
+                onDismissed: (direction) {
+                  // onDismissed(employee); // Call the provided dismissal handler
+                },
+                child: ListTile(
+                  dense: true,
+
+                  title: Text(
+                    employee.name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        todo.name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        employee.position,
+                        style: const TextStyle(fontSize: 12),
                       ),
-                      SizedBox(width: defaultGapping / 2),
-                      // PriorityBadge(status: todo.priority),
+                      Text(
+                        !employee.isCurrent
+                            ? '${employee.hireDate}-${employee.leavingDate}'
+                            : employee.hireDate,
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ],
                   ),
-                  trailing: SafeArea(
-                    child: Row(
-                      // alignment: WrapAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: trailingIcon ?? const SizedBox.shrink(),
-                        ),
-                        // SizedBox(width: defaultGapping / 2),
-                        Flexible(
-                          child: AnimatedRotation(
-                            turns:
-                                isExpanded
-                                    ? 0.5
-                                    : 0.0, // Rotates 180° when expanded
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                            child: Icon(
-                              Icons.expand_more,
-                              color: Colors.grey.shade600,
-                            ),
+                  trailing: PopupMenuButton(
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'edit':
+                          showModalBottomSheet(
+                            useRootNavigator: true,
+                            useSafeArea: true,
+                            showDragHandle: true,
+                            // isScrollControlled: true,
+                            enableDrag: true,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom, // Adjust for keyboard
+                                ),
+                                // child: EditTodo(todo: todo),
+                              );
+                            },
+                          );
+                          break;
+                        case 'delete':
+                          // todo.deletedAt = Timestamp.now();
+                          // todo.timestamp = Timestamp.now();
+                          // _firestoreService.moveToTrash(todo);
+                          break;
+                        default:
+                      }
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(
+                          value: 'edit',
+                          height: popupMenuButtonHeight,
+                          child: ListTile(
+                            dense: true,
+                            trailing: Icon(Icons.edit, size: listTileIconSize),
+                            title: Text('Edit'),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  subtitle: AnimatedSize(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    child:
-                        isExpanded
-                            ? const SizedBox.shrink()
-                            : Text(
-                              todo.name,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
+                        PopupMenuItem(
+                          value: 'delete',
+                          height: popupMenuButtonHeight,
+                          child: ListTile(
+                            dense: true,
+
+                            trailing: Icon(
+                              Icons.delete,
+                              size: listTileIconSize,
                             ),
+                            title: Text('Delete'),
+                          ),
+                        ),
+                      ];
+                    },
                   ),
                 ),
-                AnimatedCrossFade(
-                  duration: const Duration(milliseconds: 200),
-                  firstChild: const SizedBox.shrink(),
-                  secondChild: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(todo.name, style: TextStyle(fontSize: 14)),
-                        const SizedBox(height: 6),
-                        Text(
-                          "Due: ${todo.department}",
-                          style: TextStyle(color: Colors.grey.shade700),
-                        ),
-                        Text(
-                          "Done At: ${todo.phone}",
-                          style: TextStyle(color: Colors.grey.shade700),
-                        ),
-                      ],
-                    ),
-                  ),
-                  crossFadeState:
-                      isExpanded
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

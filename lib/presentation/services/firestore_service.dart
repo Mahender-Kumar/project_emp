@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_emp/data/models/todo_model.dart';
+import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/services/generate_tags.dart';
 
@@ -69,15 +69,26 @@ class FirestoreService {
   }
 
   /// 🔹 Get active to-dos (not deleted)
-  Stream<List<Map<String, dynamic>>> getTodos() {
+  Stream<List<Map<String, dynamic>>> getCurrentEmployees() {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
     return _firestore
-        .collection("users")
-        .doc(user.uid)
-        .collection(todosCollection)
-        .where('isCompleted', isEqualTo: false)
-        // .orderBy('createdAt', descending: true)
+        .collection("employees")
+        .where('status', isEqualTo: 'hired')
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((doc) => {'id': doc.id, ...doc.data()})
+                  .toList(),
+        );
+  }
+  Stream<List<Map<String, dynamic>>> getPreviousEmployees() {
+    final user = _authService.currentUser;
+    if (user == null) throw Exception("User is not logged in");
+    return _firestore
+        .collection("employees")
+        .where('status', isEqualTo: 'left')
         .snapshots()
         .map(
           (snapshot) =>

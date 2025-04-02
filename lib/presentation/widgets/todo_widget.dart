@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project_emp/core/constants/constants.dart'; 
-import 'package:project_emp/data/models/todo_model.dart';
+import 'package:project_emp/core/constants/constants.dart';
+import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/extensions/string_extensions.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
@@ -39,7 +39,7 @@ class TodoItemWidget extends StatelessWidget {
             // decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
           ),
         ),
-        subtitle:   Text(todo.email),
+        subtitle: Text(todo.email ?? ''),
         trailing: PopupMenuButton(
           onSelected: (value) {
             switch (value) {
@@ -128,9 +128,7 @@ class _EditTodoState extends State<EditTodo> {
             TextFormField(
               maxLines: 3,
               minLines: 3,
-              controller: TextEditingController(
-                text: widget.todo?.name ?? '',
-              ),
+              controller: TextEditingController(text: widget.todo?.name ?? ''),
               decoration: InputDecoration(
                 isDense: true,
 

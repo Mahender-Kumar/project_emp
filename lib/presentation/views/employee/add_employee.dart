@@ -5,8 +5,8 @@ import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/data/models/jobs_model.dart';
-import 'package:project_emp/data/models/todo_model.dart';
+import 'package:project_emp/data/models/employee_model.dart';
+import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:project_emp/presentation/widgets/date_picker.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
@@ -22,8 +22,6 @@ class AddTodo extends StatefulWidget {
 class _AddTodoState extends State<AddTodo> {
   final _formKey = GlobalKey<FormState>();
 
-  final _dateController = TextEditingController();
-
   late Employee todo;
 
   @override
@@ -36,8 +34,9 @@ class _AddTodoState extends State<AddTodo> {
       email: '',
       phone: '',
       salary: 0.0,
-      hireDate: DateTime.now(),
+      hireDate: '${DateTime.now()}',
       location: '',
+      isCurrent: true,
     );
     super.initState();
   }
@@ -64,7 +63,7 @@ class _AddTodoState extends State<AddTodo> {
                   const SnackBar(content: Text("Todo Added Successfully")),
                 );
                 _formKey.currentState!.reset(); // Reset the form
-                _dateController.clear(); // Clear the date controller
+
                 todo = Employee(
                   id: const Uuid().v4(),
 
@@ -74,8 +73,9 @@ class _AddTodoState extends State<AddTodo> {
                   email: '',
                   phone: '',
                   salary: 0.0,
-                  hireDate: DateTime.now(),
+                  hireDate: '${DateTime.now()}',
                   location: '',
+                  isCurrent: true,
                 ); // Reset the todo object
                 // Close screen on success
               } else if (state is EmployeeFailure) {
@@ -125,7 +125,12 @@ class _AddTodoState extends State<AddTodo> {
                     Flexible(
                       child: DatePicker(
                         validate: true,
-                        controller: _dateController,
+                        controller: TextEditingController(
+                          text:
+                              todo.hireDate
+                                  
+                                  .toString(),
+                        ),
                         onDateTimeSelected: (dateSelected) {
                           // todo.dueDate = Timestamp.fromDate(dateSelected);
                         },
@@ -137,8 +142,9 @@ class _AddTodoState extends State<AddTodo> {
 
                     Flexible(
                       child: DatePicker(
-                        validate: true,
-                        controller: _dateController,
+                        controller: TextEditingController(
+                          text: todo.leavingDate.toString(),
+                        ),
                         onDateTimeSelected: (dateSelected) {
                           // todo.dueDate = Timestamp.fromDate(dateSelected);
                         },

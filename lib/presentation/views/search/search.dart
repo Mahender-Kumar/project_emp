@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/data/models/todo_model.dart';
+import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/views/history/history.dart';
 import 'package:project_emp/presentation/views/search/components/search_field.dart';
@@ -53,8 +53,8 @@ class SearchPage extends StatelessWidget {
                           itemCount: items.length,
                           itemBuilder: (context, index) {
                             Employee todo = Employee.fromMap(items[index]);
-                            return TodoExpansionTile(
-                              todo: Employee(
+                            return EmployeeTile(
+                              employee: Employee(
                                 id: todo.id,
                                 name: todo.name,
                                 phone: todo.phone,
@@ -64,9 +64,7 @@ class SearchPage extends StatelessWidget {
                                 location: todo.location,
                                 salary: todo.salary,
                                 hireDate: todo.hireDate,
-                                
-
-                                
+                                isCurrent: todo.isCurrent,
                               ),
                               // leadingIcon: Checkbox(
                               //   value: todo.isCompleted,
