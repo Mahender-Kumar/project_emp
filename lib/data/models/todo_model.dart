@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_emp/data/enum/priority.dart';
 import 'package:uuid/uuid.dart';
 
 class Employee {
-  final String id;
+  final String? id;
   String name;
   String position;
   String department;
@@ -14,7 +12,7 @@ class Employee {
   String location;
 
   Employee({
-    required this.id,
+    this.id,
     required this.name,
     required this.position,
     required this.department,

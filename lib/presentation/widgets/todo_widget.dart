@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/data/enum/priority.dart';
+import 'package:project_emp/core/constants/constants.dart'; 
 import 'package:project_emp/data/models/todo_model.dart';
 import 'package:project_emp/extensions/string_extensions.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
@@ -158,28 +157,28 @@ class _EditTodoState extends State<EditTodo> {
             ),
 
             SizedBox(height: defaultGapping),
-            DropdownButtonFormField<Priorities>(
-              decoration: const InputDecoration(
-                isDense: true,
-                labelText: "Priority",
-                border: OutlineInputBorder(),
-              ),
-              // value: widget.todo?.priority ?? Priorities.low,
-              items:
-                  Priorities.values
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name.toTitleCase()),
-                        ),
-                      )
-                      .toList(),
-              onChanged: (value) {
-                // widget.todo?.priority = value ?? Priorities.low;
-              },
-              validator:
-                  (value) => value == null ? "Please select a priority" : null,
-            ),
+            // DropdownButtonFormField<Priorities>(
+            //   decoration: const InputDecoration(
+            //     isDense: true,
+            //     labelText: "Priority",
+            //     border: OutlineInputBorder(),
+            //   ),
+            //   // value: widget.todo?.priority ?? Priorities.low,
+            //   items:
+            //       Priorities.values
+            //           .map(
+            //             (e) => DropdownMenuItem(
+            //               value: e,
+            //               child: Text(e.name.toTitleCase()),
+            //             ),
+            //           )
+            //           .toList(),
+            //   onChanged: (value) {
+            //     // widget.todo?.priority = value ?? Priorities.low;
+            //   },
+            //   validator:
+            //       (value) => value == null ? "Please select a priority" : null,
+            // ),
             const SizedBox(height: 20),
 
             ExpandedBtn(
