@@ -30,8 +30,12 @@ class FirestoreService {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
     await _firestore.collection("employees").doc(employee.id).delete();
+    final employeeData = employee.toMap();
+    employeeData['deletedAt'] = DateTime.now().toIso8601String();
+    employeeData['leavingDate'] = DateTime.now().toIso8601String();
+    employeeData['isCurrent'] = false;
     await _firestore.collection("deleted_employees").doc(employee.id).set({
-      ...employee.toMap(),
+      ...employeeData,
     });
   }
 

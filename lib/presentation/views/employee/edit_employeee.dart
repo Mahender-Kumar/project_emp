@@ -8,6 +8,7 @@ import 'package:project_emp/blocs/employee/edit_employee_bloc.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/data/models/jobs_model.dart';
+import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/widgets/date_picker.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
@@ -22,6 +23,7 @@ class EditEmployee extends StatefulWidget {
 }
 
 class _EditEmployeeState extends State<EditEmployee> {
+  final FirestoreService firestoreService = FirestoreService();
   final _formKey = GlobalKey<FormState>();
   late Employee employee;
 
@@ -39,7 +41,21 @@ class _EditEmployeeState extends State<EditEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Employee Details')),
+      appBar: AppBar(
+        title: const Text('Edit Employee Details'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await firestoreService.moveToTrash(employee);
+              if (context.mounted) {
+                Navigator.of(context).pop(true);
+              }
+            },
+            icon: Icon(Icons.delete),
+          ),
+          SizedBox(width: defaultGapping / 2),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
