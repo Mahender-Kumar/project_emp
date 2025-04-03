@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project_emp/core/constants/constants.dart'; 
+import 'package:project_emp/core/constants/constants.dart';
 
 class HomeMenu extends StatelessWidget {
   const HomeMenu({super.key});
@@ -25,27 +24,15 @@ class HomeMenu extends StatelessWidget {
             child: Text('Settings', style: TextStyle()),
           ),
         ),
+
         SizedBox(
           width: 200,
           child: MenuItemButton(
             trailingIcon: Icon(
-              Icons.history_outlined,
+              Icons.person_remove_alt_1_outlined,
               size: menuAnchorIconSize,
             ),
-            onPressed: () {
-              context.push('/history');
-            },
-            child: Text('History', style: TextStyle()),
-          ),
-        ),
-        SizedBox(
-          width: 200,
-          child: MenuItemButton(
-            trailingIcon: Icon(
-              Icons.delete_outline_rounded,
-              size: menuAnchorIconSize,
-            ),
-            child: Text('Trash'),
+            child: Text('Removed Employees'),
             onPressed: () {
               context.push('/trash');
             },

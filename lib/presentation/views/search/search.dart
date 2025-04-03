@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
-import 'package:project_emp/presentation/views/history/history.dart';
+import 'package:project_emp/presentation/widgets/employee_tile.dart';
 import 'package:project_emp/presentation/views/search/components/search_field.dart';
 import 'package:project_emp/presentation/views/search/search_cubit.dart';
 
@@ -30,7 +30,7 @@ class SearchPage extends StatelessWidget {
                 child: BlocBuilder<SearchCubit, String>(
                   builder: (context, searchQuery) {
                     return StreamBuilder<List<Map<String, dynamic>>>(
-                      stream: firestoreService.searchTodos(searchQuery),
+                      stream: firestoreService.searchEmployee(searchQuery),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -66,15 +66,6 @@ class SearchPage extends StatelessWidget {
                                 hireDate: todo.hireDate,
                                 isCurrent: todo.isCurrent,
                               ),
-                              // leadingIcon: Checkbox(
-                              //   value: todo.isCompleted,
-                              //   onChanged: (value) {
-                              //     firestoreService.toggleTodoStatus(
-                              //       todo.id!,
-                              //       !(todo.isCompleted),
-                              //     );
-                              //   },
-                              // ),
                             );
                           },
                         );

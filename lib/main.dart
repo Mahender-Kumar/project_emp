@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_emp/blocs/auth/auth_bloc.dart';
-import 'package:project_emp/blocs/history/history_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AddEmployeeBloc(FirestoreService())),
         BlocProvider(create: (_) => ThemeBloc()..add(SetInitialTheme())),
-        BlocProvider(create: (context) => HistoryBloc(FirestoreService())),
         BlocProvider(create: (context) => AuthBloc(AuthService())),
         BlocProvider(create: (_) => EmployeeBloc()..add(LoadEmployees())),
         BlocProvider(create: (context) => JobCubit()),

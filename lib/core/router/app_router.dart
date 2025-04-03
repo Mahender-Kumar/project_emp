@@ -5,14 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:project_emp/presentation/views/app_scaffold.dart';
 import 'package:project_emp/presentation/views/auth/login/login_screen.dart';
 import 'package:project_emp/presentation/views/auth/signup/signup_screen.dart';
-import 'package:project_emp/presentation/views/history/history.dart';
 import 'package:project_emp/presentation/views/home/home.dart';
 import 'package:project_emp/presentation/views/search/search.dart';
 import 'package:project_emp/presentation/views/settings/settings.dart';
 import 'package:project_emp/presentation/views/theme/theme_page.dart';
 import 'package:project_emp/presentation/views/employee/add_employee.dart';
-import 'package:project_emp/presentation/views/trash.dart';
-import 'package:project_emp/presentation/views/welcome/welcome_screen.dart'; 
+import 'package:project_emp/presentation/views/welcome/welcome_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -104,24 +102,10 @@ class AppRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/add',
             builder: (BuildContext context, GoRouterState state) {
-              return AddTodo();
+              return AddEmployee();
             },
           ),
 
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/history',
-            builder: (BuildContext context, GoRouterState state) {
-              return HistoryPage();
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/trash',
-            builder: (BuildContext context, GoRouterState state) {
-              return TrashPage();
-            },
-          ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
             path: '/theme',
@@ -174,37 +158,6 @@ class AppRouter {
             },
           ),
 
-          // GoRoute(
-          //   parentNavigatorKey: _shellNavigatorKey,
-          //   path: '/settings',
-          //   pageBuilder: (BuildContext context, GoRouterState state) {
-          //     return CustomTransitionPage(
-          //       key: state.pageKey,
-          //       child: Settings(), // Your Settings screen
-          //       transitionsBuilder: (
-          //         context,
-          //         animation,
-          //         secondaryAnimation,
-          //         child,
-          //       ) {
-          //         const begin = Offset(1.0, 0.0); // Slide in from the right
-          //         const end = Offset.zero;
-          //         const curve = Curves.easeInOut;
-
-          //         var tween = Tween(
-          //           begin: begin,
-          //           end: end,
-          //         ).chain(CurveTween(curve: curve));
-          //         var offsetAnimation = animation.drive(tween);
-
-          //         return SlideTransition(
-          //           position: offsetAnimation,
-          //           child: child,
-          //         );
-          //       },
-          //     );
-          //   },
-          // ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
             path: '/settings',
@@ -214,13 +167,7 @@ class AppRouter {
           ),
         ],
       ),
-      GoRoute(
-        parentNavigatorKey: _rootNavigatorKey,
-        path: '/history',
-        builder: (BuildContext context, GoRouterState state) {
-          return HistoryPage();
-        },
-      ),
+
       // Signup
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,

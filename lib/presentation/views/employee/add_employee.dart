@@ -12,14 +12,14 @@ import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
 import 'package:uuid/uuid.dart';
 
-class AddTodo extends StatefulWidget {
-  const AddTodo({super.key});
+class AddEmployee extends StatefulWidget {
+  const AddEmployee({super.key});
 
   @override
-  State<AddTodo> createState() => _AddTodoState();
+  State<AddEmployee> createState() => _AddEmployeeState();
 }
 
-class _AddTodoState extends State<AddTodo> {
+class _AddEmployeeState extends State<AddEmployee> {
   final _formKey = GlobalKey<FormState>();
 
   late Employee employee;
@@ -101,7 +101,7 @@ class _AddTodoState extends State<AddTodo> {
                 const SizedBox(height: defaultGapping),
                 BlocListener<JobCubit, String?>(
                   listener: (context, state) {
-                    // TODO: implement listener
+                    employee.position = state ?? 'Select Role';
                   },
                   child: TextFormField(
                     readOnly: true,
@@ -165,7 +165,19 @@ class _AddTodoState extends State<AddTodo> {
                 ),
                 const SizedBox(height: defaultGapping),
 
-                BlocBuilder<AddEmployeeBloc, EmployeeState>(
+                BlocConsumer<AddEmployeeBloc, EmployeeState>(
+                  listener: (context, state) {
+                    if (state is EmployeeSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Employee added successfully")),
+                      );
+                      Navigator.pop(context); // Pop the screen on success
+                    } else if (state is EmployeeFailure) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.error)));
+                    }
+                  },
                   builder: (context, state) {
                     return ExpandedBtn(
                       style: FilledButton.styleFrom(
@@ -188,6 +200,8 @@ class _AddTodoState extends State<AddTodo> {
                                   strokeWidth: 2,
                                 ),
                               )
+                              : state is EmployeeSuccess
+                              ? const Text("Saved")
                               : const Text("Save"),
                     );
                   },

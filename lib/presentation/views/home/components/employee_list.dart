@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/data/models/employee_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; 
 import 'package:project_emp/emploee_bloc.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
-import 'package:project_emp/presentation/views/history/history.dart';
-import 'package:project_emp/presentation/widgets/todo_widget.dart';
+import 'package:project_emp/presentation/widgets/employee_tile.dart'; 
 
 class ExployeeListview extends StatelessWidget {
   final FirestoreService _firestoreService;

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:project_emp/presentation/widgets/test.dart';
+import 'package:project_emp/presentation/widgets/test3.dart';
 
 class DatePicker extends StatelessWidget {
   final String? label;
@@ -89,65 +90,77 @@ class DatePicker extends StatelessWidget {
         ),
       ),
       onTap: () async {
-        final DateTime? picked = await myShowDatePicker(
-          context: context,
-          initialDate: initialDate,
-          firstDate: minDate ?? DateTime(1950),
-          lastDate: maxDate ?? DateTime(2101),
-          initialDatePickerMode: DatePickerMode.day,
-          initialEntryMode: DatePickerEntryMode.calendar,
-          showMondayButton: showMondayButton,
-          showTuesdayButton: showTuesdayButton,
-          showWednesdayButton: showWednesdayButton,
-          showThursdayButton: showThursdayButton,
-          showFridayButton: showFridayButton,
-          showSaturdayButton: showSaturdayButton,
-          showSundayButton: showSundayButton,
-          showNoDateButton: showNoDateButton,
-          showTodayButton: showTodayButton,
-          showOneweekAfterButton: showOneweekAfterButton,
-
-          builder: (contex, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                datePickerTheme: DatePickerThemeData(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      12,
-                    ), // Adjust the radius as needed
-                  ),
-                  cancelButtonStyle: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                  ),
-                  confirmButtonStyle: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                  ),
-                ),
-                listTileTheme: ListTileThemeData(dense: true),
-                primaryColor: Colors.blue,
-                // accentColor: Colors.blue,
-                colorScheme: Theme.of(
-                  context,
-                ).colorScheme.copyWith(primary: Colors.blue),
-                buttonTheme: const ButtonThemeData(
-                  textTheme: ButtonTextTheme.primary,
-                ),
-              ),
-              child: child!,
-            );
-          },
+        final DateTime? date = await MyDatePickerDialog.show(
+          context,
+          initialDate: DateTime.now(),
         );
+        if (date != null) {
+          DateTime? picked = date;
+          // setState(() {
+          //   selectedDate = date;
+          // });
 
-        controller.text = _controllerText(picked);
-        onDateTimeSelected(picked!);
+          // final DateTime? picked = await myShowDatePicker(
+          //   context: context,
+          //   initialDate: initialDate,
+          //   firstDate: minDate ?? DateTime(1950),
+          //   lastDate: maxDate ?? DateTime(2101),
+          //   initialDatePickerMode: DatePickerMode.day,
+          //   initialEntryMode: DatePickerEntryMode.calendar,
+          //   showMondayButton: showMondayButton,
+          //   showTuesdayButton: showTuesdayButton,
+          //   showWednesdayButton: showWednesdayButton,
+          //   showThursdayButton: showThursdayButton,
+          //   showFridayButton: showFridayButton,
+          //   showSaturdayButton: showSaturdayButton,
+          //   showSundayButton: showSundayButton,
+          //   showNoDateButton: showNoDateButton,
+          //   showTodayButton: showTodayButton,
+          //   showOneweekAfterButton: showOneweekAfterButton,
+
+          //   builder: (contex, child) {
+          //     return Theme(
+          //       data: Theme.of(context).copyWith(
+          //         datePickerTheme: DatePickerThemeData(
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(
+          //               12,
+          //             ), // Adjust the radius as needed
+          //           ),
+          //           cancelButtonStyle: ButtonStyle(
+          //             shape: WidgetStatePropertyAll(
+          //               RoundedRectangleBorder(
+          //                 borderRadius: BorderRadius.circular(4),
+          //               ),
+          //             ),
+          //           ),
+          //           confirmButtonStyle: ButtonStyle(
+          //             shape: WidgetStatePropertyAll(
+          //               RoundedRectangleBorder(
+          //                 borderRadius: BorderRadius.circular(4),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         listTileTheme: ListTileThemeData(dense: true),
+          //         primaryColor: Colors.blue,
+          //         // accentColor: Colors.blue,
+          //         colorScheme: Theme.of(
+          //           context,
+          //         ).colorScheme.copyWith(primary: Colors.blue),
+          //         buttonTheme: const ButtonThemeData(
+          //           textTheme: ButtonTextTheme.primary,
+          //         ),
+          //       ),
+          //       child: child!,
+          //     );
+          //   },
+          // );
+
+          controller.text = _controllerText(picked);
+          print(picked);
+          onDateTimeSelected(picked);
+        }
       },
     );
   }

@@ -8,10 +8,10 @@ class AddEmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   final FirestoreService _firestoreService;
 
   AddEmployeeBloc(this._firestoreService) : super(EmployeeInitial()) {
-    on<AddEmployeeEvent>(_onAddTodo);
+    on<AddEmployeeEvent>(_onAddEmployee);
   }
 
-  Future<void> _onAddTodo(
+  Future<void> _onAddEmployee(
     AddEmployeeEvent event,
     Emitter<EmployeeState> emit,
   ) async {
@@ -22,7 +22,7 @@ class AddEmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
         event.employee,
         tags: generateTags(event.employee.name),
       );
-      // emit(EmployeeSuccess());
+      emit(EmployeeSuccess([]));
     } catch (e) {
       emit(EmployeeFailure(e.toString()));
     }

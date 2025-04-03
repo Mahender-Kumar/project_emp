@@ -5,8 +5,16 @@ List<String> generateTags(String input) {
       .toLowerCase()
       .split(RegExp(r'\s+')) // Split by spaces
       .where((word) => word.isNotEmpty) // Remove empty words
-      .map(
-        (word) => word.replaceAll(RegExp(r'[^\w]'), ''),
-      ) // Remove special characters and add #
+      .expand((word) => _generateSubstrings(word)) // Generate substrings
+      .toSet() // Remove duplicates
       .toList();
+}
+
+// Generate progressive substrings for a word
+List<String> _generateSubstrings(String word) {
+  List<String> substrings = [];
+  for (int i = 1; i <= word.length; i++) {
+    substrings.add(word.substring(0, i)); // Generate progressive substrings
+  }
+  return substrings;
 }
