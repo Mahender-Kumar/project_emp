@@ -1,3 +1,4 @@
+import 'package:project_emp/data/models/jobs_model.dart';
 import 'package:uuid/uuid.dart';
 
 class Employee {
@@ -51,7 +52,21 @@ class Employee {
     return Employee(
       id: map['id'],
       name: map['name'] ?? '',
-      position: map['position'] ?? '',
+      // position:sampleJobs.where(test) map['position'] ?? '',
+      position:
+          sampleJobs
+              .firstWhere(
+                (job) =>
+                    job.id ==
+                    map['position'], // Match job.id with map['position']
+                orElse:
+                    () => Job(
+                      id: '1',
+                      title: 'Flutter Developer',
+                    ), // Return a default Job object
+              )
+              .title,
+
       department: map['department'] ?? '',
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
@@ -61,7 +76,7 @@ class Employee {
           map['leavingDate'] != null
               ? DateTime.parse((map['leavingDate']).toString())
               : null,
-      location: map['location'] ?? '',  
+      location: map['location'] ?? '',
       isCurrent: map['isCurrent'] ?? true,
     );
   }

@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:project_emp/data/models/employee_model.dart';
+import 'package:project_emp/presentation/services/firestore_service.dart';
 
 // Bloc Events
 abstract class EmployeeEvent extends Equatable {
@@ -47,7 +47,7 @@ class EmployeeFailure extends EmployeeState {
 
 // Bloc Implementation
 class EmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirestoreService firestoreService = FirestoreService();
 
   EmployeeBloc() : super(EmployeeInitial()) {
     on<LoadEmployees>(_fetchEmployees);
@@ -64,7 +64,7 @@ class EmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
       emit(EmployeeLoading());
 
       await emit.forEach(
-        firestore.collection('employees').snapshots(),
+        firestoreService.getEmployees(),
         onData: (snapshot) {
           final employees =
               snapshot.docs.map((doc) {

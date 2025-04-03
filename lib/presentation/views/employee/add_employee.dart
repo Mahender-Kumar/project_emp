@@ -6,6 +6,7 @@ import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/employee_model.dart';
+import 'package:project_emp/data/models/jobs_model.dart';
 import 'package:project_emp/presentation/widgets/date_picker.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
@@ -99,9 +100,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                         onChanged: (value) => employee.name = value,
                       ),
                       const SizedBox(height: defaultGapping),
-                      BlocListener<JobCubit, String?>(
+                      BlocListener<JobCubit, Job?>(
                         listener: (context, state) {
-                          employee.position = state ?? 'Select Role';
+                          employee.position = state!.id;
                         },
                         child: TextFormField(
                           readOnly: true,
@@ -119,11 +120,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                           },
                           controller: TextEditingController(
                             text:
-                                context.watch<JobCubit>().state ??
+                                context.watch<JobCubit>().state?.title ??
                                 'Select Role',
                           ),
-                          // validator:
-                          //     (value) => value!.isEmpty ? "Please enter role" : null,
+                          validator:
+                              (value) =>
+                                  value!.isEmpty ? "Please enter role" : null,
                           onChanged: (value) => employee.position = value,
                         ),
                       ),

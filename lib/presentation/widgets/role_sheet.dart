@@ -37,7 +37,7 @@ class JobSelectionBottomSheet {
                   return ListTile(
                     title: Text(job.title),
                     onTap: () {
-                      context.read<JobCubit>().selectJob(job.title);
+                      context.read<JobCubit>().selectJob(job);
                       Navigator.pop(context);
                     },
                   );
@@ -51,10 +51,10 @@ class JobSelectionBottomSheet {
   }
 }
 
-class JobCubit extends Cubit<String?> {
+class JobCubit extends Cubit<Job?> {
   JobCubit() : super(null);
 
-  void selectJob(String jobTitle) {
-    emit(jobTitle);
+  void selectJob(Job job) {
+    emit(job);
   }
 }

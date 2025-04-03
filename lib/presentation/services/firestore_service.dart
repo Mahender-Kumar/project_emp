@@ -19,19 +19,11 @@ class FirestoreService {
   }
 
   /// 🔹 Get active to-dos (not deleted)
-  Stream<List<Map<String, dynamic>>> getCurrentEmployees() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getEmployees() {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
-    return _firestore
-        .collection("employees")
-        .where('status', isEqualTo: 'hired')
-        .snapshots()
-        .map(
-          (snapshot) =>
-              snapshot.docs
-                  .map((doc) => {'id': doc.id, ...doc.data()})
-                  .toList(),
-        );
+
+    return _firestore.collection("employees").snapshots();
   }
 
   Future<void> moveToTrash(Employee employee) async {
