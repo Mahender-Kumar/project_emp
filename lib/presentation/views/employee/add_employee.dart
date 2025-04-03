@@ -136,6 +136,7 @@ class _AddTodoState extends State<AddTodo> {
                         showTuesdayButton: true,
                         showTodayButton: true,
                         showOneweekAfterButton: true,
+                        initialDate: employee.hireDate,
                         controller: TextEditingController(
                           text: employee.hireDate.toString(),
                         ),

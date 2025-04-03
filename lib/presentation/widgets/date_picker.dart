@@ -64,6 +64,8 @@ class DatePicker extends StatelessWidget {
     DateTime? initialDate = convertDate(this.initialDate);
     DateTime? maxDate = convertDate(this.maxDate);
     DateTime? minDate = convertDate(this.minDate);
+    controller.text = _controllerText(initialDate);
+
     return TextFormField(
       readOnly: true,
       controller: controller,
@@ -87,9 +89,6 @@ class DatePicker extends StatelessWidget {
         ),
       ),
       onTap: () async {
-        // showCustomDatePicker(context, DateTime.now(), (selectedDate) {
-        //   print("Selected Date: ${selectedDate.toLocal()}");
-        // });
         final DateTime? picked = await myShowDatePicker(
           context: context,
           initialDate: initialDate,

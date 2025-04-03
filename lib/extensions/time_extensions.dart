@@ -23,6 +23,6 @@ extension TimestampExtensions on Timestamp {
 
 extension DateTimeExtensions on DateTime {
   String toFormattedDatetimeString() {
-    return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
+    return DateFormat('yyyy-MM-dd').format(this);
   }
 }
