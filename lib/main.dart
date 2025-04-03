@@ -10,10 +10,10 @@ import 'package:project_emp/blocs/theme/theme_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/core/configs/size_config.dart';
 import 'package:project_emp/core/router/app_router.dart';
-import 'package:project_emp/emploee_bloc.dart';
 import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
+import 'package:project_emp/presentation/views/employee/emploee_bloc.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
 
 Future<void> main() async {
@@ -56,10 +56,6 @@ class MyApp extends StatelessWidget {
                     theme: ThemeData.light(),
                     darkTheme: ThemeData.dark(),
                     themeMode: state,
-                    // theme:
-                    //     state
-                    //         ? AppTheme(AppColors.darkColors).getTheme()
-                    //         : AppTheme(AppColors.mainColors).getTheme(),
                     routerConfig: AppRouter.instance.router,
                   );
                 },

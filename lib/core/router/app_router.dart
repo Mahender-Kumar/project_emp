@@ -10,7 +10,6 @@ import 'package:project_emp/presentation/views/search/search.dart';
 import 'package:project_emp/presentation/views/settings/settings.dart';
 import 'package:project_emp/presentation/views/theme/theme_page.dart';
 import 'package:project_emp/presentation/views/employee/add_employee.dart';
-import 'package:project_emp/presentation/views/welcome/welcome_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -52,16 +51,12 @@ class AppRouter {
       // if (loggedIn && (goingToLogin || goingToWelcome)) return '/';
       // return null;
       final loggedIn = _auth.currentUser != null;
-      final goingToLogin = state.matchedLocation.startsWith(
-        '/login',
-      ); // Fixed space issue
-      final goingToSignup = state.matchedLocation.startsWith(
-        '/signup',
-      ); // Added signup check
+      final goingToLogin = state.matchedLocation.startsWith('/login');
+      final goingToSignup = state.matchedLocation.startsWith('/signup');
       final goingToWelcome = state.matchedLocation.startsWith('/welcome');
 
       if (!loggedIn && !goingToLogin && !goingToSignup && !goingToWelcome) {
-        return '/welcome?from=${Uri.encodeComponent(state.matchedLocation)}';
+        return '/login?from=${Uri.encodeComponent(state.matchedLocation)}';
       }
 
       if (loggedIn && (goingToLogin || goingToSignup || goingToWelcome)) {
@@ -76,11 +71,9 @@ class AppRouter {
         navigatorKey: _shellNavigatorKey,
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return AppScaffold(
-            // selectedIndex: index == -1 ? 0 s: index,
             currentPath: state.uri.path,
             body: child,
             mobileNavs: 3,
-            // navList: navList,
           );
         },
         routes: [
@@ -119,7 +112,7 @@ class AppRouter {
             pageBuilder: (BuildContext context, GoRouterState state) {
               return CustomTransitionPage(
                 key: state.pageKey,
-                child: Settings(), // Your Settings screen
+                child: Settings(),
                 transitionsBuilder: (
                   context,
                   animation,
@@ -175,15 +168,6 @@ class AppRouter {
         name: 'signup',
         builder: (BuildContext context, GoRouterState state) {
           return SignUpScreen();
-        },
-      ),
-      // welcome
-      GoRoute(
-        parentNavigatorKey: _rootNavigatorKey,
-        path: '/welcome',
-        name: 'welcome',
-        builder: (BuildContext context, GoRouterState state) {
-          return WelcomeScreen();
         },
       ),
 

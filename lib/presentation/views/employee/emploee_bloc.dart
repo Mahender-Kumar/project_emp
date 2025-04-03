@@ -51,19 +51,25 @@ class EmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
 
   EmployeeBloc() : super(EmployeeInitial()) {
     on<LoadEmployees>(_fetchEmployees);
-    on<UpdateEmployees>((event, emit) => emit(EmployeeSuccess(event.employees)));
+    on<UpdateEmployees>(
+      (event, emit) => emit(EmployeeSuccess(event.employees)),
+    );
   }
 
-  Future<void> _fetchEmployees(LoadEmployees event, Emitter<EmployeeState> emit) async {
+  Future<void> _fetchEmployees(
+    LoadEmployees event,
+    Emitter<EmployeeState> emit,
+  ) async {
     try {
       emit(EmployeeLoading());
 
       await emit.forEach(
         firestore.collection('employees').snapshots(),
         onData: (snapshot) {
-          final employees = snapshot.docs.map((doc) {
-            return Employee.fromMap(doc.data());
-          }).toList();
+          final employees =
+              snapshot.docs.map((doc) {
+                return Employee.fromMap(doc.data());
+              }).toList();
 
           return EmployeeSuccess(employees);
         },
@@ -77,9 +83,8 @@ class EmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
   @override
   EmployeeState? fromJson(Map<String, dynamic> json) {
     try {
-      final employees = (json['employees'] as List)
-          .map((e) => Employee.fromMap(e))
-          .toList();
+      final employees =
+          (json['employees'] as List).map((e) => Employee.fromMap(e)).toList();
       return EmployeeSuccess(employees);
     } catch (_) {
       return null;
