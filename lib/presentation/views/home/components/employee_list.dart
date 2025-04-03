@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/views/employee/emploee_bloc.dart';
 import 'package:project_emp/presentation/widgets/employee_tile.dart';
 
 class ExployeeListview extends StatelessWidget {
-  final FirestoreService _firestoreService;
-
-  ExployeeListview({super.key}) : _firestoreService = FirestoreService();
+  const ExployeeListview({super.key});
 
   @override
   Widget build(BuildContext context) {

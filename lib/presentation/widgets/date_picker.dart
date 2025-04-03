@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
-import 'package:project_emp/presentation/widgets/test.dart';
 import 'package:project_emp/presentation/widgets/test3.dart';
 
 class DatePicker extends StatelessWidget {
@@ -158,7 +157,7 @@ class DatePicker extends StatelessWidget {
           // );
 
           controller.text = _controllerText(picked);
-          print(picked);
+          // print(picked);
           onDateTimeSelected(picked);
         }
       },

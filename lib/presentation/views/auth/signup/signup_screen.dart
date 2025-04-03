@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/core/constants/image_constant.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
-import 'package:project_emp/services/email_validator.dart'; 
+import 'package:project_emp/services/email_validator.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -60,13 +58,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: defaultGapping * 4),
-                Center(
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: SvgPicture.asset(ImageConst.googleLogo),
-                  ),
-                ),
+
                 SizedBox(height: defaultGapping * 2),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),

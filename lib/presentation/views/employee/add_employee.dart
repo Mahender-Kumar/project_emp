@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
@@ -6,7 +5,6 @@ import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/employee_model.dart';
-import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:project_emp/presentation/widgets/date_picker.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
@@ -59,9 +57,6 @@ class _AddEmployeeState extends State<AddEmployee> {
             listener: (context, state) {
               // print(' state: $state');
               if (state is EmployeeSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Todo Added Successfully")),
-                );
                 _formKey.currentState!.reset(); // Reset the form
 
                 employee = Employee(
