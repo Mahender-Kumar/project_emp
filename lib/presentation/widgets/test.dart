@@ -333,7 +333,7 @@ class _DatePickerDialogState extends State<DatePickerDialog>
     registerForRestoration(_entryMode, 'calendar_entry_mode');
   }
 
-  final GlobalKey _calendarPickerKey = GlobalKey();
+  GlobalKey _calendarPickerKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleOk() {
@@ -376,12 +376,57 @@ class _DatePickerDialogState extends State<DatePickerDialog>
   }
 
   void _handleDateChanged(DateTime date) {
+    // print(date.weekday);
     setState(() => _selectedDate.value = date);
   }
 
   void _onTodayPressed(DateTime date) {
     // _handleDateChanged(DateTime.now());
-    setState(() => _selectedDate.value = date);
+    setState(() {
+      _calendarPickerKey = GlobalKey();
+      _selectedDate.value = date;
+    });
+  }
+
+  // void _onDayPressed(DateTime date, int weekDay) {
+  //   setState(() {
+  //     _calendarPickerKey = GlobalKey(); // Only reset if necessary
+  //     _selectedDate.value =
+  //         (date.weekday == weekDay)
+  //             ? date.add(const Duration(days: 7))
+  //             : date.add(Duration(days: (8 - date.weekday) % 7));
+  //   });
+  // }
+
+  // void _onDayPressed(DateTime date, int targetWeekday) {
+  //   setState(() {
+  //     _calendarPickerKey = GlobalKey(); // Reset if necessary
+
+  //     int currentWeekday = date.weekday; // Get current day of the week
+  //     int daysUntilNextTarget = (targetWeekday - currentWeekday + 7) % 7;
+
+  //     // If today is the target weekday, move to the next week's same day
+  //     if (daysUntilNextTarget == 0) {
+  //       daysUntilNextTarget = 7;
+  //     }
+
+  //     _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
+  //   });
+  // }
+  void _onDayPressed(DateTime date, int targetWeekday) {
+    setState(() {
+      _calendarPickerKey = GlobalKey(); // Reset if necessary
+
+      int currentWeekday = date.weekday; // Get current day of the week
+      int daysUntilNextTarget = (targetWeekday - currentWeekday + 7) % 7;
+
+      // If today is already the target weekday, move to the next week's same day
+      if (daysUntilNextTarget == 0) {
+        daysUntilNextTarget = 7;
+      }
+
+      _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
+    });
   }
 
   Size _dialogSize(BuildContext context) {
@@ -510,14 +555,17 @@ class _DatePickerDialogState extends State<DatePickerDialog>
         ),
       ),
     );
-    print('actions: ');
+    print('tjh');
+    print('actions: ${widget.currentDate}');
+    print('actions: ${widget.lastDate}');
+    print('actions: ${widget.firstDate}');
+    print('actions: ${_selectedDate.value}');
     CalendarDatePicker calendarDatePicker() {
       return CalendarDatePicker(
         key: _calendarPickerKey,
         initialDate: _selectedDate.value,
         firstDate: widget.firstDate,
         lastDate: widget.lastDate,
-        // currentDate: _selectedDate.value,
         currentDate: widget.currentDate,
         onDateChanged: _handleDateChanged,
         selectableDayPredicate: widget.selectableDayPredicate,
@@ -613,14 +661,15 @@ class _DatePickerDialogState extends State<DatePickerDialog>
       showNoDateButton: true,
       showOneweekAfterButton: true,
       showTodayButton: true,
-      onNextMondayPressed: () {},
+      onNextMondayPressed: () => _onDayPressed(DateTime.now(), DateTime.monday),
+      onNextTuesdayPressed:
+          () => _onDayPressed(DateTime.now(), DateTime.tuesday),
+      onNextWednesdayPressed: () => _onDayPressed(DateTime.now(), 3),
+      onNextThursdayPressed: () => _onDayPressed(DateTime.now(), 4),
+      onNextFridayPressed: () => _onDayPressed(DateTime.now(), 5),
+      onNextSaturdayPressed: () => _onDayPressed(DateTime.now(), 6),
+      onNextSundayPressed: () => _onDayPressed(DateTime.now(), DateTime.sunday),
       onAfterOneWeekPressed: () {},
-      onNextFridayPressed: () {},
-      onNextSaturdayPressed: () {},
-      onNextSundayPressed: () {},
-      onNextThursdayPressed: () {},
-      onNextTuesdayPressed: () {},
-      onNextWednesdayPressed: () {},
       onTodayPressed: () => _onTodayPressed(DateTime.now()),
       onNoDatePressed: () {},
       helpText:
@@ -1054,7 +1103,7 @@ class _DatePickerHeader extends StatelessWidget {
       buttonRows.add(
         _buildButton(
           'Next Sunday',
-          onNextSaturdayPressed,
+          onNextSundayPressed,
           showSundayButton == true,
           context,
         ),
