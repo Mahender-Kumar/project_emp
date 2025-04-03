@@ -10,6 +10,7 @@ import 'package:project_emp/presentation/views/search/search.dart';
 import 'package:project_emp/presentation/views/settings/settings.dart';
 import 'package:project_emp/presentation/views/theme/theme_page.dart';
 import 'package:project_emp/presentation/views/employee/add_employee.dart';
+import 'package:project_emp/presentation/views/trash.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -104,6 +105,13 @@ class AppRouter {
             path: '/theme',
             builder: (BuildContext context, GoRouterState state) {
               return ThemeSelectorPage();
+            },
+          ),
+          GoRoute(
+            parentNavigatorKey: _shellNavigatorKey,
+            path: '/trash',
+            builder: (BuildContext context, GoRouterState state) {
+              return DeletedEmployeePage();
             },
           ),
           GoRoute(

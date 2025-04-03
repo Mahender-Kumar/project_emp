@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
@@ -82,124 +83,158 @@ class _AddEmployeeState extends State<AddEmployee> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: "Employee Name",
-                    isDense: true,
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person_2_outlined),
+                Flexible(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Employee Name",
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.person_2_outlined),
+                        ),
+                        validator:
+                            (value) =>
+                                value!.isEmpty ? "Please enter name" : null,
+                        onChanged: (value) => employee.name = value,
+                      ),
+                      const SizedBox(height: defaultGapping),
+                      BlocListener<JobCubit, String?>(
+                        listener: (context, state) {
+                          employee.position = state ?? 'Select Role';
+                        },
+                        child: TextFormField(
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Select Role',
+                            isDense: true,
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.work_outline),
+                            suffixIcon: Icon(Icons.arrow_drop_down),
+                          ),
+                          onTap: () {
+                            JobSelectionBottomSheet.showJobSelectionSheet(
+                              context: context,
+                            );
+                          },
+                          controller: TextEditingController(
+                            text:
+                                context.watch<JobCubit>().state ??
+                                'Select Role',
+                          ),
+                          // validator:
+                          //     (value) => value!.isEmpty ? "Please enter role" : null,
+                          onChanged: (value) => employee.position = value,
+                        ),
+                      ),
+                      const SizedBox(height: defaultGapping),
+
+                      Row(
+                        children: [
+                          Flexible(
+                            child: DatePicker(
+                              validate: true,
+                              showMondayButton: true,
+                              showTuesdayButton: true,
+                              showTodayButton: true,
+                              showOneweekAfterButton: true,
+                              initialDate: employee.hireDate,
+                              controller: TextEditingController(
+                                text: employee.hireDate.toString(),
+                              ),
+                              onDateTimeSelected: (dateSelected) {
+                                employee.hireDate = dateSelected;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: defaultGapping),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            size: btnFontSize * 1.5,
+                          ),
+                          const SizedBox(width: defaultGapping),
+
+                          Flexible(
+                            child: DatePicker(
+                              showNoDateButton: true,
+                              showTodayButton: true,
+                              controller: TextEditingController(
+                                text: employee.leavingDate.toString(),
+                              ),
+                              onDateTimeSelected: (dateSelected) {
+                                employee.leavingDate = dateSelected;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: defaultGapping),
+                    ],
                   ),
-                  validator:
-                      (value) => value!.isEmpty ? "Please enter name" : null,
-                  onChanged: (value) => employee.name = value,
                 ),
-                const SizedBox(height: defaultGapping),
-                BlocListener<JobCubit, String?>(
-                  listener: (context, state) {
-                    employee.position = state ?? 'Select Role';
-                  },
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Select Role',
-                      isDense: true,
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.work_outline),
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                    ),
-                    onTap: () {
-                      JobSelectionBottomSheet.showJobSelectionSheet(
-                        context: context,
-                      );
-                    },
-                    controller: TextEditingController(
-                      text: context.watch<JobCubit>().state ?? 'Select Role',
-                    ),
-                    // validator:
-                    //     (value) => value!.isEmpty ? "Please enter role" : null,
-                    onChanged: (value) => employee.position = value,
-                  ),
-                ),
-                const SizedBox(height: defaultGapping),
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Flexible(
-                      child: DatePicker(
-                        validate: true,
-                        showMondayButton: true,
-                        showTuesdayButton: true,
-                        showTodayButton: true,
-                        showOneweekAfterButton: true,
-                        initialDate: employee.hireDate,
-                        controller: TextEditingController(
-                          text: employee.hireDate.toString(),
-                        ),
-                        onDateTimeSelected: (dateSelected) {
-                          employee.hireDate = dateSelected;
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: defaultGapping),
-                    Icon(Icons.arrow_forward_rounded, size: btnFontSize * 1.5),
-                    const SizedBox(width: defaultGapping),
-
-                    Flexible(
-                      child: DatePicker(
-                        showNoDateButton: true,
-                        showTodayButton: true,
-                        controller: TextEditingController(
-                          text: employee.leavingDate.toString(),
-                        ),
-                        onDateTimeSelected: (dateSelected) {
-                          employee.leavingDate = dateSelected;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: defaultGapping),
-
-                BlocConsumer<AddEmployeeBloc, EmployeeState>(
-                  listener: (context, state) {
-                    if (state is EmployeeSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Employee added successfully")),
-                      );
-                      Navigator.pop(context); // Pop the screen on success
-                    } else if (state is EmployeeFailure) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(state.error)));
-                    }
-                  },
-                  builder: (context, state) {
-                    return ExpandedBtn(
+                    ExpandedBtn(
                       style: FilledButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.surfaceContainer,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(btnRadius),
                         ),
                       ),
-                      onPressed:
-                          state is EmployeeLoading
-                              ? null
-                              : () => _addEmployee(context),
-                      child:
-                          state is EmployeeLoading
-                              ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                              : state is EmployeeSuccess
-                              ? const Text("Saved")
-                              : const Text("Save"),
-                    );
-                  },
+                      onPressed: () {
+                        context.pop(); // Close the screen
+                      },
+                      child: const Text("Cancel"),
+                    ),
+                    SizedBox(width: defaultGapping),
+                    BlocConsumer<AddEmployeeBloc, EmployeeState>(
+                      listener: (context, state) {
+                        if (state is EmployeeSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Employee added successfully"),
+                            ),
+                          );
+                          Navigator.pop(context); // Pop the screen on success
+                        } else if (state is EmployeeFailure) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(state.error)));
+                        }
+                      },
+                      builder: (context, state) {
+                        return ExpandedBtn(
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(btnRadius),
+                            ),
+                          ),
+                          onPressed:
+                              state is EmployeeLoading
+                                  ? null
+                                  : () => _addEmployee(context),
+                          child:
+                              state is EmployeeLoading
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                  : state is EmployeeSuccess
+                                  ? const Text("Saved")
+                                  : const Text("Save"),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

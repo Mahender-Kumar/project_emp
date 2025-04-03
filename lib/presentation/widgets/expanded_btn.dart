@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ExpandedBtn extends StatelessWidget {
@@ -9,12 +8,6 @@ class ExpandedBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: FilledButton(style: style, onPressed: onPressed, child: child),
-        ),
-      ],
-    );
+    return FilledButton(style: style, onPressed: onPressed, child: child);
   }
 }

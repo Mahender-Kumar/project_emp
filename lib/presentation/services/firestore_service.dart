@@ -34,12 +34,20 @@ class FirestoreService {
         );
   }
 
+  Future<void> moveToTrash(Employee employee) async {
+    final user = _authService.currentUser;
+    if (user == null) throw Exception("User is not logged in");
+    await _firestore.collection("employees").doc(employee.id).delete();
+    await _firestore.collection("deleted_employees").doc(employee.id).set({
+      ...employee.toMap(),
+    });
+  }
+
   Stream<List<Map<String, dynamic>>> getDeletedEmployee() {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
     return _firestore
         .collection("deleted_employees")
-        .orderBy('deletedAt', descending: true)
         .snapshots()
         .map(
           (snapshot) =>
@@ -61,7 +69,8 @@ class FirestoreService {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
     final batch = _firestore.batch();
-    final querySnapshot = await _firestore.collection("employees").get();
+    final querySnapshot =
+        await _firestore.collection("deleted_employees").get();
     for (var doc in querySnapshot.docs) {
       batch.delete(doc.reference);
     }

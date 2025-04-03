@@ -4,8 +4,8 @@ import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/widgets/employee_tile.dart';
 
-class TrashPage extends StatelessWidget {
-  TrashPage({super.key});
+class DeletedEmployeePage extends StatelessWidget {
+  DeletedEmployeePage({super.key});
 
   final FirestoreService _firestore = FirestoreService();
 
@@ -25,7 +25,7 @@ class TrashPage extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: const Text("Trash"),
+              title: const Text("Deleted Employees"),
             ),
             pinned: true,
             floating: false,
@@ -34,7 +34,7 @@ class TrashPage extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.delete_forever),
                 onPressed: _firestore.clearTrash,
-                tooltip: "Clear Trash",
+                tooltip: "Clear",
               ),
               SizedBox(width: defaultGapping),
             ],
@@ -60,7 +60,11 @@ class TrashPage extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final todo = Employee.fromMap(deletedTodos[index]);
 
-                  return EmployeeTile(employee: todo);
+                  return EmployeeTile(
+                    employee: todo,
+                    isDismissible: false,
+                    showTrailingIcon: false,
+                  );
                 }, childCount: deletedTodos.length),
               );
             },
