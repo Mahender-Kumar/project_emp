@@ -81,8 +81,15 @@ class DatePickerCubit extends Cubit<DatePickerState> {
 
 class MyDatePickerDialog extends StatelessWidget {
   final DateTime? initialDate;
+  final DateTime? minDate;
+  final DateTime? maxDate;
 
-  const MyDatePickerDialog({Key? key, this.initialDate}) : super(key: key);
+  const MyDatePickerDialog({
+    Key? key,
+    this.initialDate,
+    this.maxDate,
+    this.minDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +104,11 @@ class MyDatePickerDialog extends StatelessWidget {
       child: Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: DatePickerContent(),
+        child: DatePickerContent(
+          minDate: minDate,
+          maxDate: maxDate,
+          initialDate: initialDate,
+        ),
       ),
     );
   }
@@ -105,10 +116,17 @@ class MyDatePickerDialog extends StatelessWidget {
   static Future<DateTime?> show(
     BuildContext context, {
     DateTime? initialDate,
+    DateTime? minDate,
+    DateTime? maxDate,
   }) async {
     return showDialog<DateTime>(
       context: context,
-      builder: (context) => MyDatePickerDialog(initialDate: initialDate),
+      builder:
+          (context) => MyDatePickerDialog(
+            initialDate: initialDate,
+            minDate: minDate,
+            maxDate: maxDate,
+          ),
     );
   }
 }
@@ -116,6 +134,9 @@ class MyDatePickerDialog extends StatelessWidget {
 class DatePickerContent extends StatelessWidget {
   DatePickerContent({
     Key? key,
+    this.initialDate,
+    this.minDate,
+    this.maxDate,
     this.onTodayPressed,
     this.onNextMondayPressed,
     this.onNextTuesdayPressed,
@@ -159,6 +180,9 @@ class DatePickerContent extends StatelessWidget {
   final bool showOneweekAfterButton;
   final bool showSundayButton;
   final bool showNoDateButton;
+  final DateTime? minDate;
+  final DateTime? maxDate;
+  final DateTime? initialDate;
   Widget _buildButton(
     String text,
     VoidCallback? onPressed,
@@ -386,8 +410,8 @@ class DatePickerContent extends StatelessWidget {
               CalendarDatePicker(
                 key: calendarKey,
                 initialDate: state.selectedDate,
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2030),
+                firstDate: minDate ?? DateTime(2020),
+                lastDate: maxDate ?? DateTime(2030),
                 onDateChanged: (DateTime newDate) {
                   context.read<DatePickerCubit>().selectDate(newDate);
                 },
@@ -520,6 +544,8 @@ class _ExampleUsageState extends State<ExampleUsage> {
                 final DateTime? date = await MyDatePickerDialog.show(
                   context,
                   initialDate: selectedDate,
+                  minDate: DateTime(2020),
+                  maxDate: DateTime(2030),
                 );
                 if (date != null) {
                   setState(() {

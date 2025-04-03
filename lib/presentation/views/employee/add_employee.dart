@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/blocs/employee/add_employee_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_state.dart';
@@ -142,10 +143,17 @@ class _AddEmployeeState extends State<AddEmployee> {
                               showOneweekAfterButton: true,
                               initialDate: employee.hireDate,
                               controller: TextEditingController(
-                                text: employee.hireDate.toString(),
+                                text: DateFormat.yMMMd(
+                                  'en_US',
+                                ).format(employee.hireDate),
                               ),
                               onDateTimeSelected: (dateSelected) {
                                 employee.hireDate = dateSelected;
+                                if (employee.hireDate.isAfter(
+                                  employee.leavingDate ?? DateTime.now(),
+                                )) {
+                                  employee.leavingDate = null;
+                                }
                               },
                             ),
                           ),
@@ -160,6 +168,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                             child: DatePicker(
                               showNoDateButton: true,
                               showTodayButton: true,
+                              minDate: employee.hireDate,
                               controller: TextEditingController(
                                 text: employee.leavingDate.toString(),
                               ),

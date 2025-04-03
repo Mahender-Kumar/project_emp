@@ -92,6 +92,8 @@ class DatePicker extends StatelessWidget {
         final DateTime? date = await MyDatePickerDialog.show(
           context,
           initialDate: DateTime.now(),
+          minDate: minDate ?? DateTime(1950),
+          maxDate: maxDate ?? DateTime(2101),
         );
         if (date != null) {
           DateTime? picked = date;
