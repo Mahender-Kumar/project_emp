@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:project_emp/data/models/employee_model.dart';
- 
 
 abstract class EmployeeState extends Equatable {
+  const EmployeeState();
   @override
   List<Object> get props => [];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/data/models/employee_model.dart';
@@ -24,7 +25,7 @@ class EmployeeTile extends StatelessWidget {
     return parsedDate;
   }
 
-  FirestoreService firestoreService = FirestoreService();
+  final FirestoreService firestoreService = FirestoreService();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -64,7 +65,9 @@ class EmployeeTile extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           await firestoreService.moveToTrash(employee);
-                          Navigator.of(context).pop(true);
+                          if (context.mounted) {
+                            Navigator.of(context).pop(true);
+                          }
                         },
                         child: const Text(
                           "Delete",
@@ -103,25 +106,7 @@ class EmployeeTile extends StatelessWidget {
                       onSelected: (value) {
                         switch (value) {
                           case 'edit':
-                            showModalBottomSheet(
-                              useRootNavigator: true,
-                              useSafeArea: true,
-                              showDragHandle: true,
-                              // isScrollControlled: true,
-                              enableDrag: true,
-                              context: context,
-                              builder: (context) {
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom:
-                                        MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom, // Adjust for keyboard
-                                  ),
-                                  // child: EditTodo(todo: todo),
-                                );
-                              },
-                            );
+                            context.push('/edit', extra: employee);
                             break;
 
                           default:

@@ -80,4 +80,31 @@ class Employee {
       isCurrent: map['isCurrent'] ?? true,
     );
   }
+
+  Employee copyWith({
+    String? name,
+    String? position,
+    DateTime? hireDate,
+    DateTime? leavingDate,
+    bool? isCurrent,
+    String? department,
+    String? email,
+    String? phone,
+    double? salary,
+    String? location,
+  }) {
+    return Employee(
+      id: id, // Keep the same ID
+      name: name ?? this.name,
+      position: position ?? this.position,
+      hireDate: hireDate ?? this.hireDate,
+      leavingDate: leavingDate ?? this.leavingDate,
+      isCurrent: isCurrent ?? this.isCurrent,
+      department: department ?? department,
+      email: email ?? email,
+      phone: phone ?? phone,
+      salary: salary ?? salary,
+      location: location ?? location,
+    );
+  }
 }

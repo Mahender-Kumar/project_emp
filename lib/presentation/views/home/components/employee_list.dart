@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/presentation/views/employee/emploee_bloc.dart';
+import 'package:project_emp/blocs/employee/add_employee_state.dart';
+import 'package:project_emp/blocs/employee/fetch_emploee_bloc.dart';
 import 'package:project_emp/presentation/widgets/employee_tile.dart';
 
 class ExployeeListview extends StatelessWidget {
@@ -11,7 +12,7 @@ class ExployeeListview extends StatelessWidget {
     return SliverFillRemaining(
       child: Column(
         children: [
-          BlocBuilder<EmployeeBloc, EmployeeState>(
+          BlocBuilder<FetchEmployeeBloc, EmployeeState>(
             builder: (context, state) {
               if (state is EmployeeLoading) {
                 return const Center(child: LinearProgressIndicator());

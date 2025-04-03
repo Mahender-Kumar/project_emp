@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_emp/blocs/auth/auth_bloc.dart';
+import 'package:project_emp/blocs/employee/add_employee_event.dart';
+import 'package:project_emp/blocs/employee/edit_employee_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
@@ -13,7 +15,7 @@ import 'package:project_emp/core/router/app_router.dart';
 import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
-import 'package:project_emp/presentation/views/employee/emploee_bloc.dart';
+import 'package:project_emp/blocs/employee/fetch_emploee_bloc.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
 
 Future<void> main() async {
@@ -38,9 +40,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AddEmployeeBloc(FirestoreService())),
+        BlocProvider(create: (context) => EditEmployeeBloc(FirestoreService())),
         BlocProvider(create: (_) => ThemeBloc()..add(SetInitialTheme())),
         BlocProvider(create: (context) => AuthBloc(AuthService())),
-        BlocProvider(create: (_) => EmployeeBloc()..add(LoadEmployees())),
+        BlocProvider(create: (_) => FetchEmployeeBloc()..add(LoadEmployees())),
         BlocProvider(create: (context) => JobCubit()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeMode>(

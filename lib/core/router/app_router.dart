@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/views/app_scaffold.dart';
 import 'package:project_emp/presentation/views/auth/login/login_screen.dart';
 import 'package:project_emp/presentation/views/auth/signup/signup_screen.dart';
+import 'package:project_emp/presentation/views/employee/edit_employeee.dart';
 import 'package:project_emp/presentation/views/home/home.dart';
 import 'package:project_emp/presentation/views/search/search.dart';
 import 'package:project_emp/presentation/views/settings/settings.dart';
@@ -97,6 +99,14 @@ class AppRouter {
             path: '/add',
             builder: (BuildContext context, GoRouterState state) {
               return AddEmployee();
+            },
+          ),
+          GoRoute(
+            parentNavigatorKey: _shellNavigatorKey,
+            path: '/edit',
+            builder: (BuildContext context, GoRouterState state) {
+              final employee = state.extra as Employee;
+              return EditEmployee(employee: employee);
             },
           ),
 

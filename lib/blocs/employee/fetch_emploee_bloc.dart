@@ -1,57 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:project_emp/blocs/employee/add_employee_event.dart';
+import 'package:project_emp/blocs/employee/add_employee_state.dart';
 import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 
-// Bloc Events
-abstract class EmployeeEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class LoadEmployees extends EmployeeEvent {}
-
-class UpdateEmployees extends EmployeeEvent {
-  final List<Employee> employees;
-  UpdateEmployees(this.employees);
-
-  @override
-  List<Object> get props => [employees];
-}
-
-// Bloc States
-abstract class EmployeeState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class EmployeeInitial extends EmployeeState {}
-
-class EmployeeLoading extends EmployeeState {}
-
-class EmployeeSuccess extends EmployeeState {
-  final List<Employee> employees;
-  EmployeeSuccess(this.employees);
-
-  @override
-  List<Object> get props => [employees];
-}
-
-class EmployeeFailure extends EmployeeState {
-  final String error;
-  EmployeeFailure(this.error);
-
-  @override
-  List<Object> get props => [error];
-}
-
 // Bloc Implementation
-class EmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
+class FetchEmployeeBloc extends HydratedBloc<EmployeeEvent, EmployeeState> {
   final FirestoreService firestoreService = FirestoreService();
 
-  EmployeeBloc() : super(EmployeeInitial()) {
+  FetchEmployeeBloc() : super(EmployeeInitial()) {
     on<LoadEmployees>(_fetchEmployees);
-    on<UpdateEmployees>(
+    on<UpdateEmployeesEvent>(
       (event, emit) => emit(EmployeeSuccess(event.employees)),
     );
   }
