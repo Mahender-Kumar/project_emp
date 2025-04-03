@@ -20,7 +20,7 @@ class ExployeeListview extends StatelessWidget {
           BlocBuilder<EmployeeBloc, EmployeeState>(
             builder: (context, state) {
               if (state is EmployeeLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: LinearProgressIndicator());
               } else if (state is EmployeeFailure) {
                 return Center(child: Text("Error: ${state.error}"));
               } else if (state is EmployeeSuccess) {

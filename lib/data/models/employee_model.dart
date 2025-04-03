@@ -13,7 +13,7 @@ class Employee {
   DateTime hireDate;
   DateTime? leavingDate;
   String? location;
-  final bool isCurrent;
+  bool isCurrent;
 
   Employee({
     String? id,
@@ -41,8 +41,8 @@ class Employee {
       'email': email,
       'phone': phone,
       'salary': salary,
-      'hireDate': hireDate,
-      'leavingDate': leavingDate,
+      'hireDate': hireDate.toIso8601String(), // Convert DateTime to string
+      'leavingDate': leavingDate?.toIso8601String(), // Nullable conversion
       'location': location,
       'isCurrent': isCurrent,
     };
@@ -58,13 +58,13 @@ class Employee {
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
       salary: (map['salary'] as num?)?.toDouble(),
-      hireDate: (map['hireDate'] ?? Timestamp.now()).toDate(),
+      hireDate: DateTime.parse(map['hireDate']), // Parse from ISO 8601 string
       leavingDate:
           map['leavingDate'] != null
-              ? ((map['leavingDate'] ?? Timestamp.now())as Timestamp).toDate()
+              ? DateTime.parse((map['leavingDate']).toString())
               : null,
-      location: map['location'] ?? '',
-      isCurrent: map['isCurrent'],
+      location: map['location'] ?? '',  
+      isCurrent: map['isCurrent'] ?? true,
     );
   }
 }
