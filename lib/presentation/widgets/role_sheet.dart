@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_emp/data/models/jobs_model.dart';
 
 class JobSelectionBottomSheet {
   static Future<void> showJobSelectionSheet({
     required BuildContext context,
-    required Function(String) onJobSelected, // Callback to handle selection
+    // required Function(String) onJobSelected, // Callback to handle selection
   }) async {
     showModalBottomSheet(
       context: context,
@@ -36,7 +37,7 @@ class JobSelectionBottomSheet {
                   return ListTile(
                     title: Text(job.title),
                     onTap: () {
-                      // context.read<JobCubit>().selectJob(job);
+                      context.read<JobCubit>().selectJob(job.title);
                       Navigator.pop(context);
                     },
                   );
@@ -47,5 +48,13 @@ class JobSelectionBottomSheet {
         );
       },
     );
+  }
+}
+
+class JobCubit extends Cubit<String?> {
+  JobCubit() : super(null);
+
+  void selectJob(String jobTitle) {
+    emit(jobTitle);
   }
 }

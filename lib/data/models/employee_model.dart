@@ -61,7 +61,7 @@ class Employee {
       hireDate: (map['hireDate'] ?? Timestamp.now()).toDate(),
       leavingDate:
           map['leavingDate'] != null
-              ? (map['leavingDate']?.toDate() ?? Timestamp.now()).toDate()
+              ? ((map['leavingDate'] ?? Timestamp.now())as Timestamp).toDate()
               : null,
       location: map['location'] ?? '',
       isCurrent: map['isCurrent'],

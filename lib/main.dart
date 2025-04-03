@@ -15,6 +15,7 @@ import 'package:project_emp/emploee_bloc.dart';
 import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
+import 'package:project_emp/presentation/widgets/role_sheet.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HistoryBloc(FirestoreService())),
         BlocProvider(create: (context) => AuthBloc(AuthService())),
         BlocProvider(create: (_) => EmployeeBloc()..add(LoadEmployees())),
+        BlocProvider(create: (context) => JobCubit()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeMode>(
         builder: (context, state) {

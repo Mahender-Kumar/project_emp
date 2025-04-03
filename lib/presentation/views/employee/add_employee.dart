@@ -99,26 +99,31 @@ class _AddTodoState extends State<AddTodo> {
                   onChanged: (value) => employee.name = value,
                 ),
                 const SizedBox(height: defaultGapping),
-                TextFormField(
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Select Role',
-                    isDense: true,
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.work_outline),
-                    suffixIcon: Icon(Icons.arrow_drop_down),
-                  ),
-                  onTap: () {
-                    JobSelectionBottomSheet.showJobSelectionSheet(
-                      context: context,
-                      onJobSelected: (job) {
-                        employee.position = job;
-                      },
-                    );
+                BlocListener<JobCubit, String?>(
+                  listener: (context, state) {
+                    // TODO: implement listener
                   },
-                  // validator:
-                  //     (value) => value!.isEmpty ? "Please enter role" : null,
-                  onChanged: (value) => employee.position = value,
+                  child: TextFormField(
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Select Role',
+                      isDense: true,
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.work_outline),
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                    ),
+                    onTap: () {
+                      JobSelectionBottomSheet.showJobSelectionSheet(
+                        context: context,
+                      );
+                    },
+                    controller: TextEditingController(
+                      text: context.watch<JobCubit>().state ?? 'Select Role',
+                    ),
+                    // validator:
+                    //     (value) => value!.isEmpty ? "Please enter role" : null,
+                    onChanged: (value) => employee.position = value,
+                  ),
                 ),
                 const SizedBox(height: defaultGapping),
 
@@ -151,7 +156,7 @@ class _AddTodoState extends State<AddTodo> {
                           text: employee.leavingDate.toString(),
                         ),
                         onDateTimeSelected: (dateSelected) {
-                          // todo.dueDate = Timestamp.fromDate(dateSelected);
+                          employee.leavingDate = dateSelected;
                         },
                       ),
                     ),
