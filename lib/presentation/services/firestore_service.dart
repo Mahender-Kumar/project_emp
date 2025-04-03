@@ -22,16 +22,14 @@ class FirestoreService {
   }
 
   /// 🔹 Edit an existing to-do
-  Future<void> saveEmployee(Employee todo, {List? tags}) async {
+  Future<void> saveEmployee(Employee employee, {List? tags}) async {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
 
-    await _firestore
-        .collection("users")
-        .doc(user.uid)
-        .collection(todosCollection)
-        .doc(todo.id)
-        .set({...todo.toMap(), 'tags': tags ?? []}, SetOptions(merge: true));
+    await _firestore.collection("employees").doc(employee.id).set({
+      ...employee.toMap(),
+      'tags': tags ?? [],
+    }, SetOptions(merge: true));
   }
 
   /// 🔹 Mark a to-do as done or undone
@@ -83,6 +81,7 @@ class FirestoreService {
                   .toList(),
         );
   }
+
   Stream<List<Map<String, dynamic>>> getPreviousEmployees() {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");

@@ -22,11 +22,11 @@ class AddTodo extends StatefulWidget {
 class _AddTodoState extends State<AddTodo> {
   final _formKey = GlobalKey<FormState>();
 
-  late Employee todo;
+  late Employee employee;
 
   @override
   void initState() {
-    todo = Employee(
+    employee = Employee(
       id: const Uuid().v4(),
       name: '',
       position: '',
@@ -34,7 +34,7 @@ class _AddTodoState extends State<AddTodo> {
       email: '',
       phone: '',
       salary: 0.0,
-      hireDate: '${DateTime.now()}',
+      hireDate: DateTime.now(),
       location: '',
       isCurrent: true,
     );
@@ -44,7 +44,7 @@ class _AddTodoState extends State<AddTodo> {
   void _addEmployee(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
 
-    context.read<AddEmployeeBloc>().add(AddEmployeeEvent(todo));
+    context.read<AddEmployeeBloc>().add(AddEmployeeEvent(employee));
   }
 
   @override
@@ -64,7 +64,7 @@ class _AddTodoState extends State<AddTodo> {
                 );
                 _formKey.currentState!.reset(); // Reset the form
 
-                todo = Employee(
+                employee = Employee(
                   id: const Uuid().v4(),
 
                   name: '',
@@ -73,7 +73,7 @@ class _AddTodoState extends State<AddTodo> {
                   email: '',
                   phone: '',
                   salary: 0.0,
-                  hireDate: '${DateTime.now()}',
+                  hireDate: DateTime.now(),
                   location: '',
                   isCurrent: true,
                 ); // Reset the todo object
@@ -96,7 +96,7 @@ class _AddTodoState extends State<AddTodo> {
                   ),
                   validator:
                       (value) => value!.isEmpty ? "Please enter name" : null,
-                  onChanged: (value) => todo.name = value,
+                  onChanged: (value) => employee.name = value,
                 ),
                 const SizedBox(height: defaultGapping),
                 TextFormField(
@@ -111,12 +111,14 @@ class _AddTodoState extends State<AddTodo> {
                   onTap: () {
                     JobSelectionBottomSheet.showJobSelectionSheet(
                       context: context,
-                      onJobSelected: (job) {},
+                      onJobSelected: (job) {
+                        employee.position = job;
+                      },
                     );
                   },
-                  validator:
-                      (value) => value!.isEmpty ? "Please enter name" : null,
-                  onChanged: (value) => todo.name = value,
+                  // validator:
+                  //     (value) => value!.isEmpty ? "Please enter role" : null,
+                  onChanged: (value) => employee.position = value,
                 ),
                 const SizedBox(height: defaultGapping),
 
@@ -126,13 +128,10 @@ class _AddTodoState extends State<AddTodo> {
                       child: DatePicker(
                         validate: true,
                         controller: TextEditingController(
-                          text:
-                              todo.hireDate
-                                  
-                                  .toString(),
+                          text: employee.hireDate.toString(),
                         ),
                         onDateTimeSelected: (dateSelected) {
-                          // todo.dueDate = Timestamp.fromDate(dateSelected);
+                          employee.hireDate = dateSelected;
                         },
                       ),
                     ),
@@ -143,7 +142,7 @@ class _AddTodoState extends State<AddTodo> {
                     Flexible(
                       child: DatePicker(
                         controller: TextEditingController(
-                          text: todo.leavingDate.toString(),
+                          text: employee.leavingDate.toString(),
                         ),
                         onDateTimeSelected: (dateSelected) {
                           // todo.dueDate = Timestamp.fromDate(dateSelected);

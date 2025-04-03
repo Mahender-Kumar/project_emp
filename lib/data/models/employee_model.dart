@@ -10,8 +10,8 @@ class Employee {
   String? email;
   String? phone;
   double? salary;
-  String hireDate;
-  String? leavingDate;
+  DateTime hireDate;
+  DateTime? leavingDate;
   String? location;
   final bool isCurrent;
 
@@ -58,10 +58,10 @@ class Employee {
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
       salary: (map['salary'] as num?)?.toDouble(),
-      hireDate: (map['hireDate'] ?? Timestamp.now()).toString(),
+      hireDate: (map['hireDate'] ?? Timestamp.now()).toDate(),
       leavingDate:
           map['leavingDate'] != null
-              ? (map['leavingDate']?.toDate() ?? DateTime.now()).toString()
+              ? (map['leavingDate']?.toDate() ?? Timestamp.now()).toDate()
               : null,
       location: map['location'] ?? '',
       isCurrent: map['isCurrent'],

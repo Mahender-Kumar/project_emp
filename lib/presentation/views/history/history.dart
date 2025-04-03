@@ -171,12 +171,12 @@ class EmployeeTile extends StatelessWidget {
                         employee.position,
                         style: const TextStyle(fontSize: 12),
                       ),
-                      Text(
-                        !employee.isCurrent
-                            ? '${employee.hireDate}-${employee.leavingDate}'
-                            : employee.hireDate,
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                      // Text(
+                      //   !employee.isCurrent
+                      //       ? '${employee.hireDate}-${employee.leavingDate}'
+                      //       : employee.hireDate,
+                      //   style: const TextStyle(fontSize: 12),
+                      // ),
                     ],
                   ),
                   trailing: PopupMenuButton(
