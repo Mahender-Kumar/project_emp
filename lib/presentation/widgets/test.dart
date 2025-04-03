@@ -413,17 +413,31 @@ class _DatePickerDialogState extends State<DatePickerDialog>
   //     _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
   //   });
   // }
+  // void _onDayPressed(DateTime date, int targetWeekday) {
+  //   setState(() {
+  //     _calendarPickerKey = GlobalKey(); // Reset if necessary
+
+  //     int currentWeekday = date.weekday; // Get current day of the week
+  //     int daysUntilNextTarget = (targetWeekday - currentWeekday + 7) % 7;
+
+  //     // If today is already the target weekday, move to the next week's same day
+  //     if (daysUntilNextTarget == 0) {
+  //       daysUntilNextTarget = 7;
+  //     }
+
+  //     _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
+  //   });
+  // }
   void _onDayPressed(DateTime date, int targetWeekday) {
     setState(() {
       _calendarPickerKey = GlobalKey(); // Reset if necessary
 
-      int currentWeekday = date.weekday; // Get current day of the week
+      int currentWeekday = date.weekday;
       int daysUntilNextTarget = (targetWeekday - currentWeekday + 7) % 7;
 
-      // If today is already the target weekday, move to the next week's same day
-      if (daysUntilNextTarget == 0) {
-        daysUntilNextTarget = 7;
-      }
+      // Ensure the date is always from the next week
+      daysUntilNextTarget =
+          (daysUntilNextTarget == 0) ? 7 : daysUntilNextTarget + 7;
 
       _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
     });
