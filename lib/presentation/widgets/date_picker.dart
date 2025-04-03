@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
-import 'package:project_emp/presentation/widgets/custom.dart';
 import 'package:project_emp/presentation/widgets/test.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatePicker extends StatelessWidget {
   final String? label;
@@ -17,7 +15,7 @@ class DatePicker extends StatelessWidget {
   final void Function(DateTime) onDateTimeSelected;
   const DatePicker({
     super.key,
-     this.label,
+    this.label,
     required this.controller,
     this.validate,
     this.maxDate,
@@ -124,10 +122,44 @@ class DatePicker extends StatelessWidget {
             12,
             0,
           );
-          controller.text = (dateTime).toFormattedDatetimeString();
+          controller.text = _controllerText(dateTime);
           onDateTimeSelected(dateTime);
         }
       },
     );
+  }
+
+  String _controllerText(DateTime? dateTime) {
+    if (dateTime == null || dateTime == DateTime(0)) {
+      return 'No Date';
+    }
+    DateTime today = DateTime.now();
+    DateTime onlyToday = DateTime(today.year, today.month, today.day);
+    DateTime onlyDateTime = DateTime(
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+    );
+    if (onlyDateTime == onlyToday) {
+      return 'Today';
+    }
+
+    int daysUntilNextMonday = (8 - today.weekday) % 7;
+    int daysUntilNextTuesday = (9 - today.weekday) % 7;
+
+    DateTime nextMonday = onlyToday.add(Duration(days: daysUntilNextMonday));
+    DateTime nextTuesday = onlyToday.add(Duration(days: daysUntilNextTuesday));
+    DateTime oneWeekLater = onlyToday.add(const Duration(days: 7));
+    if (onlyDateTime == nextMonday) {
+      return "Next Monday";
+    } else if (onlyDateTime == nextTuesday) {
+      return "Next Tuesday";
+    } else if (onlyDateTime == oneWeekLater) {
+      return "One Week Later";
+    } else {
+      return onlyDateTime.toFormattedDatetimeString();
+    }
+
+    // controller.text = dateTime.toFormattedDatetimeString();
   }
 }
