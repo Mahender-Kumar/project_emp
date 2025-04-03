@@ -68,6 +68,17 @@ Future<DateTime?> myShowDatePicker({
   final ValueChanged<DatePickerEntryMode>? onDatePickerModeChange,
   final Icon? switchToInputEntryModeIcon,
   final Icon? switchToCalendarEntryModeIcon,
+
+  final bool? showTodayButton,
+  final bool? showMondayButton,
+  final bool? showTuesdayButton,
+  final bool? showWednesdayButton,
+  final bool? showThursdayButton,
+  final bool? showFridayButton,
+  final bool? showSaturdayButton,
+  final bool? showOneweekAfterButton,
+  final bool? showSundayButton,
+  final bool? showNoDateButton,
 }) async {
   initialDate = initialDate == null ? null : DateUtils.dateOnly(initialDate);
   firstDate = DateUtils.dateOnly(firstDate);
@@ -111,6 +122,16 @@ Future<DateTime?> myShowDatePicker({
     onDatePickerModeChange: onDatePickerModeChange,
     switchToInputEntryModeIcon: switchToInputEntryModeIcon,
     switchToCalendarEntryModeIcon: switchToCalendarEntryModeIcon,
+    showTodayButton: showTodayButton ?? false,
+    showMondayButton: showMondayButton ?? false,
+    showTuesdayButton: showTuesdayButton ?? false,
+    showWednesdayButton: showWednesdayButton ?? false,
+    showThursdayButton: showThursdayButton ?? false,
+    showFridayButton: showFridayButton ?? false,
+    showSaturdayButton: showSaturdayButton ?? false,
+    showOneweekAfterButton: showOneweekAfterButton ?? false,
+    showNoDateButton: showNoDateButton ?? false,
+    showSundayButton: showSundayButton ?? false,
   );
 
   if (textDirection != null) {
@@ -171,6 +192,16 @@ class DatePickerDialog extends StatefulWidget {
     this.onDatePickerModeChange,
     this.switchToInputEntryModeIcon,
     this.switchToCalendarEntryModeIcon,
+    this.showTodayButton = false,
+    this.showMondayButton = false,
+    this.showTuesdayButton = false,
+    this.showWednesdayButton = false,
+    this.showThursdayButton = false,
+    this.showFridayButton = false,
+    this.showSaturdayButton = false,
+    this.showOneweekAfterButton = false,
+    this.showNoDateButton = false,
+    this.showSundayButton = false,
     this.insetPadding = const EdgeInsets.symmetric(
       horizontal: 16.0,
       vertical: 24.0,
@@ -300,6 +331,16 @@ class DatePickerDialog extends StatefulWidget {
   ///
   /// Defaults to `EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0)`.
   final EdgeInsets insetPadding;
+  final bool showTodayButton;
+  final bool showMondayButton;
+  final bool showTuesdayButton;
+  final bool showWednesdayButton;
+  final bool showThursdayButton;
+  final bool showFridayButton;
+  final bool showSaturdayButton;
+  final bool showOneweekAfterButton;
+  final bool showSundayButton;
+  final bool showNoDateButton;
 
   @override
   State<DatePickerDialog> createState() => _DatePickerDialogState();
@@ -682,16 +723,16 @@ class _DatePickerDialogState extends State<DatePickerDialog>
     }
 
     final Widget header = _DatePickerHeader(
-      showMondayButton: true,
-      showTuesdayButton: true,
-      showWednesdayButton: true,
-      showThursdayButton: true,
-      showFridayButton: true,
-      showSaturdayButton: true,
-      showSundayButton: true,
-      showNoDateButton: true,
-      showOneweekAfterButton: true,
-      showTodayButton: true,
+      showMondayButton: widget.showMondayButton,
+      showTuesdayButton: widget.showTuesdayButton,
+      showWednesdayButton: widget.showWednesdayButton,
+      showThursdayButton: widget.showThursdayButton,
+      showFridayButton: widget.showFridayButton,
+      showSaturdayButton: widget.showSaturdayButton,
+      showSundayButton: widget.showSundayButton,
+      showNoDateButton: widget.showNoDateButton,
+      showOneweekAfterButton: widget.showOneweekAfterButton,
+      showTodayButton: widget.showTodayButton,
       onNextMondayPressed: () => _onDayPressed(DateTime.now(), DateTime.monday),
       onNextTuesdayPressed:
           () => _onDayPressed(DateTime.now(), DateTime.tuesday),
@@ -1161,22 +1202,23 @@ class _DatePickerHeader extends StatelessWidget {
         return Semantics(
           container: true,
           child: SizedBox(
-            height:
-                _datePickerHeaderPortraitHeight * fontScaleAdjustedHeaderHeight,
+            // height:
+            //     _datePickerHeaderPortraitHeight * fontScaleAdjustedHeaderHeight,
             child: Material(
               color: backgroundColor,
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(
-                  start: 24,
+                  start: 12,
                   end: 12,
                   bottom: 12,
+                  top: 12,
                 ),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(height: 16),
+                      // const SizedBox(height: 16),
                       // help,
                       for (int i = 0; i < buttonRows.length; i += 2) ...[
                         if (i > 0) const SizedBox(height: 8),
@@ -1192,75 +1234,6 @@ class _DatePickerHeader extends StatelessWidget {
                           ],
                         ),
                       ],
-                      // Row(
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       child: TextButton(
-                      //         style: ButtonStyle(
-                      //           shape: WidgetStatePropertyAll(
-                      //             RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(4),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         onPressed: onTodayPressed,
-                      //         child: Text('Today'),
-                      //       ),
-                      //     ),
-                      //     SizedBox(width: 8),
-                      //     Expanded(
-                      //       child: TextButton(
-                      //         style: ButtonStyle(
-                      //           shape: WidgetStatePropertyAll(
-                      //             RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(4),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         onPressed: onNextMondayPressed,
-                      //         child: Text('Next Monday'),
-                      //       ),
-                      //     ),
-                      //     // Expanded(child: title),
-                      //     // if (entryModeButton != null)
-                      //     //   Semantics(container: true, child: entryModeButton),
-                      //   ],
-                      // ),
-                      // const Flexible(child: SizedBox(height: 8)),
-                      // Row(
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       child: TextButton(
-                      //         style: ButtonStyle(
-                      //           shape: WidgetStatePropertyAll(
-                      //             RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(4),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         onPressed: onNextTuesdayPressed,
-                      //         child: Text('Next Tuesday'),
-                      //       ),
-                      //     ),
-                      //     SizedBox(width: 8),
-                      //     Expanded(
-                      //       child: TextButton(
-                      //         style: ButtonStyle(
-                      //           shape: WidgetStatePropertyAll(
-                      //             RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(4),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         onPressed: onAfterOneWeekPressed,
-                      //         child: Text('After 1 Week'),
-                      //       ),
-                      //     ),
-                      //     // Expanded(child: title),
-                      //     // if (entryModeButton != null)
-                      //     //   Semantics(container: true, child: entryModeButton),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),

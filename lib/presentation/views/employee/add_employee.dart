@@ -127,6 +127,10 @@ class _AddTodoState extends State<AddTodo> {
                     Flexible(
                       child: DatePicker(
                         validate: true,
+                        showMondayButton: true,
+                        showTuesdayButton: true,
+                        showTodayButton: true,
+                        showOneweekAfterButton: true,
                         controller: TextEditingController(
                           text: employee.hireDate.toString(),
                         ),
@@ -141,6 +145,8 @@ class _AddTodoState extends State<AddTodo> {
 
                     Flexible(
                       child: DatePicker(
+                        showNoDateButton: true,
+                        showTodayButton: true,
                         controller: TextEditingController(
                           text: employee.leavingDate.toString(),
                         ),

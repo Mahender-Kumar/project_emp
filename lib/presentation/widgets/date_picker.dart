@@ -13,6 +13,17 @@ class DatePicker extends StatelessWidget {
   final bool enable;
   final bool isDense;
   final void Function(DateTime) onDateTimeSelected;
+  final bool showTodayButton;
+  final bool showMondayButton;
+  final bool showTuesdayButton;
+  final bool showWednesdayButton;
+  final bool showThursdayButton;
+  final bool showFridayButton;
+  final bool showSaturdayButton;
+  final bool showOneweekAfterButton;
+  final bool showSundayButton;
+  final bool showNoDateButton;
+
   const DatePicker({
     super.key,
     this.label,
@@ -24,6 +35,16 @@ class DatePicker extends StatelessWidget {
     required this.onDateTimeSelected,
     this.enable = true,
     this.isDense = true,
+    this.showTodayButton = false,
+    this.showMondayButton = false,
+    this.showTuesdayButton = false,
+    this.showWednesdayButton = false,
+    this.showThursdayButton = false,
+    this.showFridayButton = false,
+    this.showSaturdayButton = false,
+    this.showOneweekAfterButton = false,
+    this.showNoDateButton = false,
+    this.showSundayButton = false,
   });
 
   convertDate(dynamic date) {
@@ -76,6 +97,17 @@ class DatePicker extends StatelessWidget {
           lastDate: maxDate ?? DateTime(2101),
           initialDatePickerMode: DatePickerMode.day,
           initialEntryMode: DatePickerEntryMode.calendar,
+          showMondayButton: showMondayButton,
+          showTuesdayButton: showTuesdayButton,
+          showWednesdayButton: showWednesdayButton,
+          showThursdayButton: showThursdayButton,
+          showFridayButton: showFridayButton,
+          showSaturdayButton: showSaturdayButton,
+          showSundayButton: showSundayButton,
+          showNoDateButton: showNoDateButton,
+          showTodayButton: showTodayButton,
+          showOneweekAfterButton: showOneweekAfterButton,
+
           builder: (contex, child) {
             return Theme(
               data: Theme.of(context).copyWith(
@@ -114,17 +146,9 @@ class DatePicker extends StatelessWidget {
             );
           },
         );
-        if (picked != null) {
-          final DateTime dateTime = DateTime(
-            picked.year,
-            picked.month,
-            picked.day,
-            12,
-            0,
-          );
-          controller.text = _controllerText(dateTime);
-          onDateTimeSelected(dateTime);
-        }
+
+        controller.text = _controllerText(picked);
+        onDateTimeSelected(picked!);
       },
     );
   }
