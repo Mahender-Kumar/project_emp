@@ -428,6 +428,15 @@ class _DatePickerDialogState extends State<DatePickerDialog>
   //     _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
   //   });
   // }
+  void _onAfterOneWeek(DateTime date) {
+    setState(() {
+      _calendarPickerKey = GlobalKey(); // Reset if necessary
+
+      // Move forward exactly 7 days to the same weekday next week
+      _selectedDate.value = date.add(const Duration(days: 7));
+    });
+  }
+
   void _onDayPressed(DateTime date, int targetWeekday) {
     setState(() {
       _calendarPickerKey = GlobalKey(); // Reset if necessary
@@ -440,6 +449,14 @@ class _DatePickerDialogState extends State<DatePickerDialog>
           (daysUntilNextTarget == 0) ? 7 : daysUntilNextTarget + 7;
 
       _selectedDate.value = date.add(Duration(days: daysUntilNextTarget));
+    });
+  }
+
+  void _onNoDatePressed() {
+    setState(() {
+      _calendarPickerKey = GlobalKey(); // Reset if necessary
+
+      _selectedDate.value = null;
     });
   }
 
@@ -683,9 +700,9 @@ class _DatePickerDialogState extends State<DatePickerDialog>
       onNextFridayPressed: () => _onDayPressed(DateTime.now(), 5),
       onNextSaturdayPressed: () => _onDayPressed(DateTime.now(), 6),
       onNextSundayPressed: () => _onDayPressed(DateTime.now(), DateTime.sunday),
-      onAfterOneWeekPressed: () {},
+      onAfterOneWeekPressed: () => _onAfterOneWeek(DateTime.now()),
       onTodayPressed: () => _onTodayPressed(DateTime.now()),
-      onNoDatePressed: () {},
+      onNoDatePressed: () => _onNoDatePressed(),
       helpText:
           widget.helpText ??
           (useMaterial3
@@ -1127,7 +1144,7 @@ class _DatePickerHeader extends StatelessWidget {
       buttonRows.add(
         _buildButton(
           'No Date',
-          onNextSaturdayPressed,
+          onNoDatePressed,
           showNoDateButton == true,
           context,
         ),
