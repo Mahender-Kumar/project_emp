@@ -40,7 +40,7 @@ class TrashPage extends StatelessWidget {
             ],
           ),
           StreamBuilder<List<Map<String, dynamic>>>(
-            stream: _firestore.getDeletedTodos(),
+            stream: _firestore.getDeletedEmployee(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SliverFillRemaining(
