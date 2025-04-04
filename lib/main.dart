@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/blocs/employee/fetch_emploee_bloc.dart';
+import 'package:project_emp/presentation/views/settings/components/change_display_name.dart';
 import 'package:project_emp/presentation/widgets/role_sheet.dart';
 
 Future<void> main() async {
@@ -41,6 +43,14 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AddEmployeeBloc(FirestoreService())),
         BlocProvider(create: (context) => EditEmployeeBloc(FirestoreService())),
+        BlocProvider(
+          create:
+              (_) =>
+                  DisplayNameBloc(FirebaseAuth.instance)
+                    ..add(LoadDisplayNameEvent()),
+          child: const ChangeDisplayNamePage(),
+        ),
+
         BlocProvider(create: (_) => ThemeBloc()..add(SetInitialTheme())),
         BlocProvider(create: (context) => AuthBloc(AuthService())),
         BlocProvider(create: (_) => FetchEmployeeBloc()..add(LoadEmployees())),
