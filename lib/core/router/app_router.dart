@@ -44,15 +44,6 @@ class AppRouter {
     initialLocation: '/',
     redirectLimit: 10,
     redirect: (BuildContext context, GoRouterState state) {
-      // final loggedIn = _auth.currentUser != null;
-      // final goingToLogin = state.matchedLocation.startsWith('/login ');
-      // final goingToWelcome = state.matchedLocation.startsWith('/welcome');
-
-      // if (!loggedIn && !goingToLogin && !goingToWelcome) {
-      //   return '/welcome?from=${state.matchedLocation}';
-      // }
-      // if (loggedIn && (goingToLogin || goingToWelcome)) return '/';
-      // return null;
       final loggedIn = _auth.currentUser != null;
       final goingToLogin = state.matchedLocation.startsWith('/login');
       final goingToSignup = state.matchedLocation.startsWith('/signup');
