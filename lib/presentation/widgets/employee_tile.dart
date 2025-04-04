@@ -59,13 +59,7 @@ class EmployeeTile extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.person_remove_alt_1_outlined, color: Colors.white),
             SizedBox(width: 8),
-            Text(
-              "Terminate",
-              style: TextStyle(
-                // color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            Text("Terminate", style: TextStyle(fontWeight: FontWeight.w700)),
             SizedBox(width: 20),
           ],
         ),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_emp/blocs/theme/theme_bloc.dart';
 import 'package:project_emp/extensions/string_extensions.dart';
-import 'package:project_emp/presentation/views/settings/components/trailing_icon_btn.dart'; 
+import 'package:project_emp/presentation/widgets/trailing_icon_btn.dart'; 
 import '../../../blocs/theme/theme_event.dart';
 
 class ThemeBtn extends StatefulWidget {

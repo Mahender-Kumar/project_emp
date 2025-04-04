@@ -6,27 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_emp/core/constants/constants.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // primarySwatch: Colors.blue,
-        // scaffoldBackgroundColor: Colors.grey.shade100,
-      ),
-      home: const ExampleUsage(),
-    );
-  }
-}
-// date_picker_cubit.dart
-
 class DatePickerState extends Equatable {
   final DateTime selectedDate;
   final DateTime today;
@@ -259,6 +238,7 @@ class MyDatePickerDialog extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DatePickerContent extends StatelessWidget {
   DatePickerContent({
     super.key,
@@ -312,32 +292,7 @@ class DatePickerContent extends StatelessWidget {
   final DateTime? maxDate;
   final DateTime? initialDate;
 
-  // Widget _quickDateButton(
-  //   String text,
-  //   VoidCallback? onPressed,
-  //   bool isVisible,
-  //   context,
-  // ) {
-  //   return Expanded(
-  //     child:
-  //         isVisible
-  //             ? TextButton(
-  //               style: ButtonStyle(
-  //                 // backgroundColor: WidgetStatePropertyAll(
-  //                 //   Theme.of(context).colorScheme.onSecondary,
-  //                 // ),
-  //                 shape: WidgetStatePropertyAll(
-  //                   RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(4),
-  //                   ),
-  //                 ),
-  //               ),
-  //               onPressed: onPressed,
-  //               child: Text(text),
-  //             )
-  //             : const SizedBox(), // Empty space when button is not visible
-  //   );
-  // }
+  
 
   GlobalKey calendarKey = GlobalKey();
   bool _isDateValid(DateTime date) {
@@ -699,10 +654,10 @@ class DatePickerContent extends StatelessWidget {
     DateTime selectedDate,
     bool isEnabled,
   ) {
-    final bool isSelected =
-        date.day == selectedDate.day &&
-        date.month == selectedDate.month &&
-        date.year == selectedDate.year;
+    // final bool isSelected =
+    //     date.day == selectedDate.day &&
+    //     date.month == selectedDate.month &&
+    //     date.year == selectedDate.year;
 
     return OutlinedButton(
       style: ButtonStyle(

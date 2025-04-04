@@ -4,7 +4,7 @@ import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/presentation/views/settings/components/change_display_name.dart';
 import 'package:project_emp/presentation/views/settings/components/change_pasword.dart';
 import 'package:project_emp/presentation/views/settings/components/delete_account.dart';
-import 'package:project_emp/presentation/views/settings/components/trailing_icon_btn.dart';
+import 'package:project_emp/presentation/widgets/trailing_icon_btn.dart';
 import 'package:project_emp/presentation/views/theme/theme_page.dart';
 import 'package:project_emp/presentation/widgets/my_divider.dart';
 
@@ -37,7 +37,6 @@ class Settings extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                // ProfileHeader(),
                 ListTile(title: const Text('Preferences')),
                 ListTile(
                   dense: true,
@@ -69,7 +68,6 @@ class Settings extends StatelessWidget {
                     },
                   ),
                   onTap: () {
-                    // Navigate to Change Password screen
                     showChangePasswordDialog(context);
                   },
                 ),
@@ -120,71 +118,6 @@ class Settings extends StatelessWidget {
                   ),
                 ),
                 MyDivider(),
-
-                // _buildProfileMenuButton(
-                //   text: 'theme',
-                //   icon: Icons.color_lens_outlined,
-                //   trailing: BlocBuilder<ThemeBloc, bool>(
-                //     builder: (context, state) {
-                //       return Switch(
-                //         trackOutlineColor: WidgetStateProperty.all(
-                //           Colors.grey,
-                //         ), // Border color
-                //         trackOutlineWidth: WidgetStateProperty.all(2),
-                //         value: state,
-                //         onChanged: (bool val) {
-                //           context.read<ThemeBloc>().add(ChangeTheme());
-                //         },
-                //       );
-                //     },
-                //   ),
-                // ),
-
-                // _buildProfileMenuButton(
-                //   text: 'Log Out',
-                //   trailing: Icon(
-                //     Icons.arrow_forward_ios,
-                //     color: ColorConst.textColor,
-                //   ),
-
-                //   icon: Icons.logout_outlined,
-                //   onPressed: () {
-                //     showDialog(
-                //       context: context,
-                //       builder:
-                //           (context) => AlertDialog(
-                //             title: const Text('Logout'),
-                //             content: const Text(
-                //               'Are you sure you want to log out?',
-                //             ),
-                //             actions: [
-                //               TextButton(
-                //                 onPressed: () => Navigator.pop(context),
-                //                 child: const Text('Cancel'),
-                //               ),
-                //               TextButton(
-                //                 onPressed: () {
-                //                   // Perform logout operation
-                //                   Navigator.pop(context);
-                //                 },
-                //                 child: const Text(
-                //                   'Logout',
-                //                   style: TextStyle(color: Colors.red),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //     );
-                //     AuthService().logout();
-                //     // Navigator.push(
-                //     //   context,
-                //     //   MaterialPageRoute(
-                //     //     builder: (_) => const LoginScreen(),
-                //     //     fullscreenDialog: true,
-                //     //   ),
-                //     // );
-                //   },
-                // ),
               ],
             ),
           ),
