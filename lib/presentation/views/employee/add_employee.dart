@@ -7,6 +7,7 @@ import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/blocs/employee/employee_event.dart';
 import 'package:project_emp/blocs/employee/employee_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
+import 'package:project_emp/cubit/job/job_cubit.dart';
 import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/data/models/jobs_model.dart';
 import 'package:project_emp/presentation/widgets/date_bloc.dart';

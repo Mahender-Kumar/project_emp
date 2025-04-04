@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_emp/cubit/job/job_cubit.dart';
 import 'package:project_emp/data/models/jobs_model.dart';
 
 class JobSelectionBottomSheet {
@@ -19,12 +20,7 @@ class JobSelectionBottomSheet {
       ),
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(
-            // left: 16,
-            // right: 16,
-            // bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-            // top: 20,
-          ),
+          padding: EdgeInsets.only(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -51,10 +47,4 @@ class JobSelectionBottomSheet {
   }
 }
 
-class JobCubit extends Cubit<Job?> {
-  JobCubit() : super(null);
 
-  void selectJob(Job job) {
-    emit(job);
-  }
-}

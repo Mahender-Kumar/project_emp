@@ -1,91 +1,11 @@
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_emp/core/constants/constants.dart';
+import 'package:project_emp/blocs/change_name/change_name_bloc.dart';
+import 'package:project_emp/blocs/change_name/change_name_event.dart';
+import 'package:project_emp/blocs/change_name/change_name_state.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
-
-class DisplayNameBloc extends Bloc<DisplayNameEvent, DisplayNameState> {
-  final FirebaseAuth _auth;
-
-  DisplayNameBloc(this._auth) : super(DisplayNameInitial()) {
-    on<LoadDisplayNameEvent>((event, emit) {
-      final user = _auth.currentUser;
-      if (user != null) {
-        emit(DisplayNameLoaded(user.displayName ?? 'User'));
-      }
-    });
-
-    on<UpdateDisplayNameEvent>((event, emit) async {
-      try {
-        emit(DisplayNameUpdating());
-        final user = _auth.currentUser;
-        if (user != null) {
-          await user.updateDisplayName(event.newName.trim());
-          await user.reload();
-          emit(DisplayNameUpdated(event.newName.trim()));
-        } else {
-          emit(DisplayNameError("No user found"));
-        }
-      } catch (e) {
-        emit(DisplayNameError(e.toString()));
-      }
-    });
-  }
-}
-
-abstract class DisplayNameEvent extends Equatable {
-  const DisplayNameEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class LoadDisplayNameEvent extends DisplayNameEvent {}
-
-class UpdateDisplayNameEvent extends DisplayNameEvent {
-  final String newName;
-  const UpdateDisplayNameEvent(this.newName);
-
-  @override
-  List<Object?> get props => [newName];
-}
-
-abstract class DisplayNameState extends Equatable {
-  const DisplayNameState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class DisplayNameInitial extends DisplayNameState {}
-
-class DisplayNameLoaded extends DisplayNameState {
-  final String displayName;
-  const DisplayNameLoaded(this.displayName);
-
-  @override
-  List<Object?> get props => [displayName];
-}
-
-class DisplayNameUpdating extends DisplayNameState {}
-
-class DisplayNameUpdated extends DisplayNameState {
-  final String newName;
-  const DisplayNameUpdated(this.newName);
-
-  @override
-  List<Object?> get props => [newName];
-}
-
-class DisplayNameError extends DisplayNameState {
-  final String error;
-  const DisplayNameError(this.error);
-
-  @override
-  List<Object?> get props => [error];
-}
 
 class ChangeDisplayNamePage extends StatefulWidget {
   const ChangeDisplayNamePage({super.key});

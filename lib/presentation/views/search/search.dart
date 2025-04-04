@@ -4,7 +4,7 @@ import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/presentation/widgets/employee_tile.dart';
 import 'package:project_emp/presentation/views/search/components/search_field.dart';
-import 'package:project_emp/presentation/views/search/search_cubit.dart';
+import 'package:project_emp/cubit/search/search_cubit.dart';
 
 class SearchPage extends StatelessWidget {
   final FirestoreService firestoreService;

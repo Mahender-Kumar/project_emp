@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/presentation/views/search/search_cubit.dart'; 
+import 'package:project_emp/cubit/search/search_cubit.dart'; 
 
 class SearchField extends StatelessWidget {
   SearchField({super.key});

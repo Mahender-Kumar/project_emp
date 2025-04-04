@@ -13,12 +13,14 @@ import 'package:project_emp/blocs/theme/theme_event.dart';
 import 'package:project_emp/blocs/employee/add_employee_bloc.dart';
 import 'package:project_emp/core/configs/size_config.dart';
 import 'package:project_emp/core/router/app_router.dart';
+import 'package:project_emp/cubit/job/job_cubit.dart';
 import 'package:project_emp/firebase_options.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/blocs/employee/fetch_emploee_bloc.dart';
 import 'package:project_emp/presentation/views/settings/components/change_display_name.dart';
-import 'package:project_emp/presentation/widgets/role_sheet.dart';
+import 'package:project_emp/blocs/change_name/change_name_bloc.dart';
+import 'package:project_emp/blocs/change_name/change_name_event.dart'; 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
