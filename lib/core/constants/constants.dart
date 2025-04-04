@@ -23,3 +23,8 @@ const listTileIconSize = 18.0;
 const popupMenuButtonHeight = 18.0;
 
 const btnRadius = 8.0;
+
+const double datePickerHeaderPortraitHeight = 120.0;
+const double fontSizeToScale = 14.0;
+const double kMaxHeaderTextScaleFactor = 1.6;
+const double kMaxHeaderWithEntryTextScaleFactor = 1.4;

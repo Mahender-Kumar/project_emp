@@ -103,6 +103,7 @@ class AppRouter {
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
+            name: 'edit',
             path: '/edit',
             builder: (BuildContext context, GoRouterState state) {
               final employee = state.extra as Employee;

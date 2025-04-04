@@ -54,18 +54,8 @@ class SearchPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             Employee employee = Employee.fromMap(items[index]);
                             return EmployeeTile(
-                              employee: Employee(
-                                id: employee.id,
-                                name: employee.name,
-                                phone: employee.phone,
-                                email: employee.email,
-                                position: employee.position,
-                                department: employee.department,
-                                location: employee.location,
-                                salary: employee.salary,
-                                hireDate: employee.hireDate,
-                                isCurrent: employee.isCurrent,
-                              ),
+                              employee: employee,
+                              showTrailingIcon: false,
                             );
                           },
                         );

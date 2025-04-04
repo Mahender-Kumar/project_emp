@@ -1,7 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:project_emp/core/constants/constants.dart';
 
 void main() {
   runApp(const MyApp());
@@ -116,6 +119,10 @@ class DatePickerCubit extends Cubit<DatePickerState> {
 
   DateTime getNextWeek() {
     return state.today.add(const Duration(days: 7));
+  }
+
+  DateTime? noDate() {
+    return null;
   }
 
   bool isDateValid(DateTime date, DateTime? minDate, DateTime? maxDate) {
@@ -484,19 +491,28 @@ class DatePickerContent extends StatelessWidget {
         }
         if (showNoDateButton == true) {
           buttonRows.add(
-            _quickDateButton(
-              context,
-              'No Date',
-              context.read<DatePickerCubit>().getNextWednesday(),
-
-              state.selectedDate,
-              isNextWednesdayValid,
-            ),
+            _buildNoDateButton(context, 'No Date', state.selectedDate),
           );
         }
+        final double currentScale =
+            MediaQuery.textScalerOf(context).scale(fontSizeToScale) /
+            fontSizeToScale;
+        final double maxHeaderTextScaleFactor = math.min(
+          currentScale,
+
+          kMaxHeaderWithEntryTextScaleFactor,
+        );
+        final double textScaleFactor =
+            MediaQuery.textScalerOf(context)
+                .clamp(maxScaleFactor: maxHeaderTextScaleFactor)
+                .scale(fontSizeToScale) /
+            fontSizeToScale;
+        final double headerScaleFactor =
+            textScaleFactor > 1 ? textScaleFactor : 1.0;
 
         print("Button Rows: ${buttonRows.length}");
-
+        final double fontScaleAdjustedHeaderHeight =
+            headerScaleFactor > 1.3 ? headerScaleFactor - 0.2 : 1.0;
         return Container(
           decoration: BoxDecoration(
             // color: Colors.white,
@@ -516,28 +532,46 @@ class DatePickerContent extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Quick selection buttons
-                for (int i = 0; i < buttonRows.length; i += 2) ...[
-                  if (i > 0) const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(child: buttonRows[i]),
-                        SizedBox(width: 12),
-                        if (i + 1 < buttonRows.length)
-                          Expanded(
-                            child: buttonRows[i + 1],
-                          ) // Prevent out-of-range
-                        else
-                          Expanded(child: Container()),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  constraints: BoxConstraints(
+                    maxHeight:
+                        datePickerHeaderPortraitHeight *
+                        fontScaleAdjustedHeaderHeight,
+                  ),
+
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+
+                      children: [
+                        for (int i = 0; i < buttonRows.length; i += 2) ...[
+                          if (i > 0) const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(child: buttonRows[i]),
+                                SizedBox(width: 12),
+                                if (i + 1 < buttonRows.length)
+                                  Expanded(
+                                    child: buttonRows[i + 1],
+                                  ) // Prevent out-of-range
+                                else
+                                  Expanded(child: Container()),
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
-                ],
+                ),
+
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(
                 //     horizontal: 12,
@@ -644,6 +678,25 @@ class DatePickerContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildNoDateButton(
+    BuildContext context,
+    String text,
+    DateTime selectedDate,
+  ) {
+    return OutlinedButton(
+      style: ButtonStyle(
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        ),
+      ),
+      onPressed: () {
+        // When pressed, return null through the Navigator
+        Navigator.of(context).pop(null);
+      },
+      child: Text(text),
     );
   }
 

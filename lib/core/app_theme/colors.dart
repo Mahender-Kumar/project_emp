@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -134,7 +132,7 @@ class AppColors {
     onPrimary: Colors.white,
     secondary: const Color(0xFF5A5A5A), // Subtle secondary
     onSecondary: Colors.white,
-    error: const Color(0xFFB00020),
+    error: const Color.fromARGB(255, 176, 12, 0),
     onError: Colors.white,
     background: const Color(0xFFF5F5F5),
     onBackground: Colors.black,

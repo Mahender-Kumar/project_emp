@@ -44,7 +44,7 @@ class EmployeeTile extends StatelessWidget {
           secondaryBackground: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            color: Theme.of(context).colorScheme.errorContainer,
+            color: Colors.red[600],
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -158,7 +158,7 @@ class EmployeeTile extends StatelessWidget {
                       onSelected: (value) {
                         switch (value) {
                           case 'edit':
-                            context.push('/edit', extra: employee);
+                            context.pushNamed('edit', extra: employee);
                             break;
 
                           default:
