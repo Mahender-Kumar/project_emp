@@ -6,7 +6,7 @@ import 'package:project_emp/presentation/views/settings/components/change_paswor
 import 'package:project_emp/presentation/views/settings/components/delete_account.dart';
 import 'package:project_emp/presentation/views/settings/components/trailing_icon_btn.dart';
 import 'package:project_emp/presentation/views/theme/theme_page.dart';
-import 'package:project_emp/presentation/widgets/my_divider.dart'; 
+import 'package:project_emp/presentation/widgets/my_divider.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -200,10 +200,10 @@ class Settings extends StatelessWidget {
         return AlertDialog.adaptive(
           content: Padding(
             padding: EdgeInsets.only(
-              bottom:
-                  MediaQuery.of(
-                    context,
-                  ).viewInsets.bottom, // Adjust for keyboard
+              // bottom:
+              //     MediaQuery.of(
+              //       context,
+              //     ).viewInsets.bottom, // Adjust for keyboard
             ),
             child: ChangePasswordPage(),
           ),
@@ -219,10 +219,10 @@ class Settings extends StatelessWidget {
         return AlertDialog.adaptive(
           content: Padding(
             padding: EdgeInsets.only(
-              bottom:
-                  MediaQuery.of(
-                    context,
-                  ).viewInsets.bottom, // Adjust for keyboard
+              // bottom:
+              //     MediaQuery.of(
+              //       context,
+              //     ).viewInsets.bottom, // Adjust for keyboard
             ),
             child: ChangeDisplayNamePage(),
           ),
@@ -231,6 +231,3 @@ class Settings extends StatelessWidget {
     );
   }
 }
-
-
-
