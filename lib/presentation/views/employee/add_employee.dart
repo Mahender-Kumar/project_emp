@@ -87,7 +87,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     hireDate: DateTime.now(),
                     location: '',
                     isCurrent: true,
-                  ); // Reset the todo object
+                  ); // Reset the Employee object
 
                   context.read<EmployeeDatesBloc>().add(
                     HireDateChanged(DateTime.now()),

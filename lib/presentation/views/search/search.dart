@@ -52,19 +52,19 @@ class SearchPage extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: items.length,
                           itemBuilder: (context, index) {
-                            Employee todo = Employee.fromMap(items[index]);
+                            Employee employee = Employee.fromMap(items[index]);
                             return EmployeeTile(
                               employee: Employee(
-                                id: todo.id,
-                                name: todo.name,
-                                phone: todo.phone,
-                                email: todo.email,
-                                position: todo.position,
-                                department: todo.department,
-                                location: todo.location,
-                                salary: todo.salary,
-                                hireDate: todo.hireDate,
-                                isCurrent: todo.isCurrent,
+                                id: employee.id,
+                                name: employee.name,
+                                phone: employee.phone,
+                                email: employee.email,
+                                position: employee.position,
+                                department: employee.department,
+                                location: employee.location,
+                                salary: employee.salary,
+                                hireDate: employee.hireDate,
+                                isCurrent: employee.isCurrent,
                               ),
                             );
                           },

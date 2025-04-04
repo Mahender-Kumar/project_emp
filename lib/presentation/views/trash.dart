@@ -54,18 +54,18 @@ class DeletedEmployeePage extends StatelessWidget {
                 );
               }
 
-              var deletedTodos = snapshot.data!;
+              var deletedEmployees = snapshot.data!;
 
               return SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  final todo = Employee.fromMap(deletedTodos[index]);
+                  final employee = Employee.fromMap(deletedEmployees[index]);
 
                   return EmployeeTile(
-                    employee: todo,
+                    employee: employee,
                     isDismissible: false,
                     showTrailingIcon: false,
                   );
-                }, childCount: deletedTodos.length),
+                }, childCount: deletedEmployees.length),
               );
             },
           ),
