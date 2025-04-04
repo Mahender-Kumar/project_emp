@@ -39,13 +39,8 @@ dependencies:
   hydrated_bloc: ^10.0.0
   path_provider: ^2.1.5
 
-  image_picker: ^1.1.2
-
-  cached_network_image: ^3.4.1
   intl: ^0.19.0
   equatable: ^2.0.7
-  flutter_svg: ^2.0.17
-
   go_router: ^14.8.1
   
   flutter_adaptive_scaffold: ^0.3.2
@@ -56,11 +51,8 @@ dependencies:
   firebase_auth: ^5.5.1
   firebase_storage: ^12.4.4
   cloud_functions: ^5.3.4
-  firebase_messaging: ^15.2.4
 
   permission_handler: ^11.4.0
-  syncfusion_flutter_calendar: ^29.1.33
-  syncfusion_flutter_datepicker: ^29.1.35
 
 dev_dependencies:
   flutter_test:
