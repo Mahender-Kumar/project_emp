@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "To do (Flutter Chrome)",
+            "name": "EMP (Flutter Chrome)",
             "program": "lib/main.dart",
             "deviceId": "chrome",
             "request": "launch",
@@ -13,7 +13,7 @@
             "args": ["-d", "chrome", "--web-port", "8000"]
           },
           {
-            "name": "To do (Flutter Edge)",
+            "name": "EMP (Flutter Edge)",
             "program": "lib/main.dart",
             "deviceId": "edge",
             "request": "launch",
