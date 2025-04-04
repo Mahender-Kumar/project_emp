@@ -39,7 +39,7 @@ class EmployeeTile extends StatelessWidget {
               isDismissible == false
                   ? DismissDirection.none
                   : employee.isCurrent
-                  ? DismissDirection.none
+                  ? DismissDirection.horizontal
                   : DismissDirection.endToStart, // Swipe from right to left
           secondaryBackground: Container(
             alignment: Alignment.centerRight,

@@ -56,6 +56,7 @@ class SearchPage extends StatelessWidget {
                             return EmployeeTile(
                               employee: employee,
                               showTrailingIcon: false,
+                              isDismissible: false,
                             );
                           },
                         );
