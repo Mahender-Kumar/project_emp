@@ -43,173 +43,174 @@ class LoginScreen extends StatelessWidget {
             ).showSnackBar(SnackBar(content: Text(state.error)));
           }
         },
-        child: SingleChildScrollView(
-          child: Container(
-            width: size.width,
-            height: size.height,
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              bottom: size.height * 0.2,
-              top: size.height * 0.05,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Hello,\nWelcome Back",
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: defaultGapping * 4),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: size.height * 0.2,
+                top: size.height * 0.05,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Hello,\nWelcome Back",
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: defaultGapping * 4),
 
-                    SizedBox(height: defaultGapping * 2),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outlineVariant,
+                      SizedBox(height: defaultGapping * 2),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 5,
                         ),
-                        color: Theme.of(context).colorScheme.outlineVariant,
-
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(btnRadius),
-                        ),
-                      ),
-                      child: TextFormField(
-                        controller: _emailController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.emailAddress,
-                        validator:
-                            (value) =>
-                                value!.isEmpty
-                                    ? "Enter your email"
-                                    : (!EmailValidator.validate(value)
-                                        ? "Invalid email"
-                                        : null),
-                        decoration: const InputDecoration(
-                          hintText: "Email",
-                          isDense: true,
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: defaultGapping * 2),
-
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outlineVariant,
-                        ),
-                        color: Theme.of(context).colorScheme.outlineVariant,
-
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(btnRadius),
-                        ),
-                      ),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        validator:
-                            (value) =>
-                                value!.isEmpty ? "Enter your password" : null,
-                        decoration: const InputDecoration(
-                          isDense: true,
-                          hintText: "Password",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: defaultGapping / 2),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Forgot Password?",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: defaultPadding * 4),
-
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return ExpandedBtn(
-                          style: FilledButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onSurface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(btnRadius),
-                            ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                           ),
-                          onPressed:
-                              state is AuthLoading
-                                  ? null
-                                  : () => _authenticate(context),
-                          child:
-                              state is AuthLoading
-                                  ? SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: const CircularProgressIndicator(),
-                                  )
-                                  : Text(
-                                    "Login",
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodySmall?.copyWith(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                        );
-                      },
-                    ),
+                          color: Theme.of(context).colorScheme.outlineVariant,
 
-                    const SizedBox(height: defaultPadding),
-                    // Center(
-                    //   child: ExpandedBtn(
-                    //     style: FilledButton.styleFrom(
-                    //       backgroundColor:
-                    //           Theme.of(context).colorScheme.onInverseSurface,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(btnRadius),
-                    //       ),
-                    //     ),
-                    //     onPressed: () {
-                    //       context.go('/signup');
-                    //     },
-                    //     child: Text(
-                    //       "Create Account",
-                    //       style: Theme.of(
-                    //         context,
-                    //       ).textTheme.bodySmall?.copyWith(
-                    //         color:
-                    //             Theme.of(
-                    //               context,
-                    //             ).colorScheme.onPrimaryContainer,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: defaultPadding),
-                  ],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(btnRadius),
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: _emailController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          validator:
+                              (value) =>
+                                  value!.isEmpty
+                                      ? "Enter your email"
+                                      : (!EmailValidator.validate(value)
+                                          ? "Invalid email"
+                                          : null),
+                          decoration: const InputDecoration(
+                            hintText: "Email",
+                            isDense: true,
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: defaultGapping * 2),
+
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                          ),
+                          color: Theme.of(context).colorScheme.outlineVariant,
+
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(btnRadius),
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          validator:
+                              (value) =>
+                                  value!.isEmpty ? "Enter your password" : null,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            hintText: "Password",
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: defaultGapping / 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Forgot Password?",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: defaultPadding * 4),
+
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return ExpandedBtn(
+                            style: FilledButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(btnRadius),
+                              ),
+                            ),
+                            onPressed:
+                                state is AuthLoading
+                                    ? null
+                                    : () => _authenticate(context),
+                            child:
+                                state is AuthLoading
+                                    ? SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: const CircularProgressIndicator(),
+                                    )
+                                    : Text(
+                                      "Login",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall?.copyWith(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                          );
+                        },
+                      ),
+
+                      const SizedBox(height: defaultPadding),
+                      // Center(
+                      //   child: ExpandedBtn(
+                      //     style: FilledButton.styleFrom(
+                      //       backgroundColor:
+                      //           Theme.of(context).colorScheme.onInverseSurface,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(btnRadius),
+                      //       ),
+                      //     ),
+                      //     onPressed: () {
+                      //       context.go('/signup');
+                      //     },
+                      //     child: Text(
+                      //       "Create Account",
+                      //       style: Theme.of(
+                      //         context,
+                      //       ).textTheme.bodySmall?.copyWith(
+                      //         color:
+                      //             Theme.of(
+                      //               context,
+                      //             ).colorScheme.onPrimaryContainer,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      const SizedBox(height: defaultPadding),
+                    ],
+                  ),
                 ),
               ),
             ),
