@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
 import 'package:project_emp/presentation/widgets/test3.dart';
 
@@ -47,9 +48,9 @@ class DatePicker extends StatelessWidget {
     this.showSundayButton = false,
   });
 
-  convertDate(dynamic date) {
+  DateTime? convertDate(dynamic date) {
     if (date == null) {
-      return date;
+      return null;
     }
     if (date is DateTime) {
       return date;
@@ -57,14 +58,26 @@ class DatePicker extends StatelessWidget {
     if (date is Timestamp) {
       return date.toDate();
     }
+    // Try to parse string if it's not null and not empty
+    if (date is String && date.isNotEmpty && date != 'No Date') {
+      try {
+        return DateTime.parse(date);
+      } catch (e) {
+        // Could not parse the date string
+        return null;
+      }
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    DateTime? initialDate = convertDate(this.initialDate);
-    DateTime? maxDate = convertDate(this.maxDate);
-    DateTime? minDate = convertDate(this.minDate);
-    controller.text = _controllerText(initialDate);
+    DateTime? initDate = convertDate(this.initialDate);
+    DateTime? max = convertDate(this.maxDate);
+    DateTime? min = convertDate(this.minDate);
+
+    // Set controller text based on initialDate
+    controller.text = _controllerText(initDate);
 
     return TextFormField(
       readOnly: true,
@@ -72,8 +85,8 @@ class DatePicker extends StatelessWidget {
       validator:
           validate == true
               ? (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter ${label?.toLowerCase()}.';
+                if (value == null || value.isEmpty || value == 'No Date') {
+                  return 'Please enter ${label?.toLowerCase() ?? "date"}.';
                 }
                 return null;
               }
@@ -83,84 +96,19 @@ class DatePicker extends StatelessWidget {
         border: const OutlineInputBorder(),
         labelText: label,
         isDense: isDense,
-        prefixIcon: const Icon(
-          Icons.calendar_today_outlined,
-          // size: 8,
-        ),
+        prefixIcon: const Icon(Icons.calendar_today_outlined),
       ),
       onTap: () async {
         final DateTime? date = await MyDatePickerDialog.show(
           context,
-          initialDate: DateTime.now(),
-          minDate: minDate ?? DateTime(1950),
-          maxDate: maxDate ?? DateTime(2101),
+          initialDate: initDate ?? DateTime.now(),
+          minDate: min ?? DateTime(1950),
+          maxDate: max ?? DateTime(2101),
         );
+
         if (date != null) {
-          DateTime? picked = date;
-          // setState(() {
-          //   selectedDate = date;
-          // });
-
-          // final DateTime? picked = await myShowDatePicker(
-          //   context: context,
-          //   initialDate: initialDate,
-          //   firstDate: minDate ?? DateTime(1950),
-          //   lastDate: maxDate ?? DateTime(2101),
-          //   initialDatePickerMode: DatePickerMode.day,
-          //   initialEntryMode: DatePickerEntryMode.calendar,
-          //   showMondayButton: showMondayButton,
-          //   showTuesdayButton: showTuesdayButton,
-          //   showWednesdayButton: showWednesdayButton,
-          //   showThursdayButton: showThursdayButton,
-          //   showFridayButton: showFridayButton,
-          //   showSaturdayButton: showSaturdayButton,
-          //   showSundayButton: showSundayButton,
-          //   showNoDateButton: showNoDateButton,
-          //   showTodayButton: showTodayButton,
-          //   showOneweekAfterButton: showOneweekAfterButton,
-
-          //   builder: (contex, child) {
-          //     return Theme(
-          //       data: Theme.of(context).copyWith(
-          //         datePickerTheme: DatePickerThemeData(
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(
-          //               12,
-          //             ), // Adjust the radius as needed
-          //           ),
-          //           cancelButtonStyle: ButtonStyle(
-          //             shape: WidgetStatePropertyAll(
-          //               RoundedRectangleBorder(
-          //                 borderRadius: BorderRadius.circular(4),
-          //               ),
-          //             ),
-          //           ),
-          //           confirmButtonStyle: ButtonStyle(
-          //             shape: WidgetStatePropertyAll(
-          //               RoundedRectangleBorder(
-          //                 borderRadius: BorderRadius.circular(4),
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //         listTileTheme: ListTileThemeData(dense: true),
-          //         primaryColor: Colors.blue,
-          //         // accentColor: Colors.blue,
-          //         colorScheme: Theme.of(
-          //           context,
-          //         ).colorScheme.copyWith(primary: Colors.blue),
-          //         buttonTheme: const ButtonThemeData(
-          //           textTheme: ButtonTextTheme.primary,
-          //         ),
-          //       ),
-          //       child: child!,
-          //     );
-          //   },
-          // );
-
-          controller.text = _controllerText(picked);
-          // print(picked);
-          onDateTimeSelected(picked);
+          controller.text = _controllerText(date);
+          onDateTimeSelected(date);
         }
       },
     );
@@ -170,6 +118,7 @@ class DatePicker extends StatelessWidget {
     if (dateTime == null || dateTime == DateTime(0)) {
       return 'No Date';
     }
+
     DateTime today = DateTime.now();
     DateTime onlyToday = DateTime(today.year, today.month, today.day);
     DateTime onlyDateTime = DateTime(
@@ -177,6 +126,7 @@ class DatePicker extends StatelessWidget {
       dateTime.month,
       dateTime.day,
     );
+
     if (onlyDateTime == onlyToday) {
       return 'Today';
     }
@@ -187,6 +137,7 @@ class DatePicker extends StatelessWidget {
     DateTime nextMonday = onlyToday.add(Duration(days: daysUntilNextMonday));
     DateTime nextTuesday = onlyToday.add(Duration(days: daysUntilNextTuesday));
     DateTime oneWeekLater = onlyToday.add(const Duration(days: 7));
+
     if (onlyDateTime == nextMonday) {
       return "Next Monday";
     } else if (onlyDateTime == nextTuesday) {
@@ -194,9 +145,13 @@ class DatePicker extends StatelessWidget {
     } else if (onlyDateTime == oneWeekLater) {
       return "One Week Later";
     } else {
-      return onlyDateTime.toFormattedDatetimeString();
+      // Assuming toFormattedDatetimeString() exists in extensions
+      try {
+        return onlyDateTime.toFormattedDatetimeString();
+      } catch (e) {
+        // Fallback if extension method isn't available
+        return DateFormat.yMMMd().format(dateTime);
+      }
     }
-
-    // controller.text = dateTime.toFormattedDatetimeString();
   }
 }
