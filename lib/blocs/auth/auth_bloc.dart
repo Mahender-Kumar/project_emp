@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_emp/blocs/auth/auth_event.dart';
 import 'package:project_emp/blocs/auth/auth_state.dart';
-import 'package:project_emp/presentation/services/auth_service.dart'; 
+import 'package:project_emp/presentation/services/auth_service.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
@@ -14,14 +14,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading()); // 🔄 Show loading state
+    emit(AuthLoading());
 
     try {
       final user = await authService.login(event.email, event.password);
       if (user != null) {
-        emit(AuthSuccess()); // ✅ Successful login
+        emit(AuthSuccess());
       } else {
-        emit(AuthFailure(error: "Invalid credentials")); // ❌ Failed login
+        emit(AuthFailure(error: "Invalid credentials"));
       }
     } catch (e) {
       emit(AuthFailure(error: e.toString()));
