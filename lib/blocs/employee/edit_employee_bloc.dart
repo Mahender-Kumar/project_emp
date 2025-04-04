@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/blocs/employee/add_employee_event.dart';
-import 'package:project_emp/blocs/employee/add_employee_state.dart';
+import 'package:project_emp/blocs/employee/employee_event.dart';
+import 'package:project_emp/blocs/employee/employee_state.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 import 'package:project_emp/services/generate_tags.dart';
 

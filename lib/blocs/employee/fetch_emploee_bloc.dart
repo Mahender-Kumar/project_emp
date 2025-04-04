@@ -1,6 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:project_emp/blocs/employee/add_employee_event.dart';
-import 'package:project_emp/blocs/employee/add_employee_state.dart';
+import 'package:project_emp/blocs/employee/employee_event.dart';
+import 'package:project_emp/blocs/employee/employee_state.dart';
 import 'package:project_emp/data/models/employee_model.dart';
 import 'package:project_emp/presentation/services/firestore_service.dart';
 

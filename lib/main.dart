@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_emp/blocs/auth/auth_bloc.dart';
-import 'package:project_emp/blocs/employee/add_employee_event.dart';
+import 'package:project_emp/blocs/employee/employee_event.dart';
 import 'package:project_emp/blocs/employee/edit_employee_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_bloc.dart';
 import 'package:project_emp/blocs/theme/theme_event.dart';

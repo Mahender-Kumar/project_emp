@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_emp/blocs/employee/add_employee_state.dart';
+import 'package:project_emp/blocs/employee/employee_state.dart';
 import 'package:project_emp/blocs/employee/fetch_emploee_bloc.dart';
 import 'package:project_emp/presentation/widgets/employee_tile.dart';
 
