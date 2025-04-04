@@ -38,7 +38,7 @@ class MyDatePickerDialog extends StatelessWidget {
     required this.showSundayButton,
   });
 
-  final Size _calendarPortraitDialogSizeM3 = Size(360.0, 512.0);
+  final Size _calendarPortraitDialogSizeM3 = Size(360.0, 600.0);
 
   @override
   Widget build(BuildContext context) {
@@ -359,25 +359,25 @@ class DatePickerContent extends StatelessWidget {
             _buildNoDateButton(context, 'No Date', state.selectedDate),
           );
         }
-        final double currentScale =
-            MediaQuery.textScalerOf(context).scale(fontSizeToScale) /
-            fontSizeToScale;
-        final double maxHeaderTextScaleFactor = math.min(
-          currentScale,
+        // final double currentScale =
+        //     MediaQuery.textScalerOf(context).scale(fontSizeToScale) /
+        //     fontSizeToScale;
+        // final double maxHeaderTextScaleFactor = math.min(
+        //   currentScale,
 
-          kMaxHeaderWithEntryTextScaleFactor,
-        );
-        final double textScaleFactor =
-            MediaQuery.textScalerOf(context)
-                .clamp(maxScaleFactor: maxHeaderTextScaleFactor)
-                .scale(fontSizeToScale) /
-            fontSizeToScale;
-        final double headerScaleFactor =
-            textScaleFactor > 1 ? textScaleFactor : 1.0;
+        //   kMaxHeaderWithEntryTextScaleFactor,
+        // );
+        // final double textScaleFactor =
+        //     MediaQuery.textScalerOf(context)
+        //         .clamp(maxScaleFactor: maxHeaderTextScaleFactor)
+        //         .scale(fontSizeToScale) /
+        //     fontSizeToScale;
+        // final double headerScaleFactor =
+        //     textScaleFactor > 1 ? textScaleFactor : 1.0;
 
         // print("Button Rows: ${buttonRows.length}");
-        final double fontScaleAdjustedHeaderHeight =
-            headerScaleFactor > 1.3 ? headerScaleFactor - 0.2 : 1.0;
+        // final double fontScaleAdjustedHeaderHeight =
+        //     headerScaleFactor > 1.3 ? headerScaleFactor - 0.2 : 1.0;
         return Container(
           decoration: BoxDecoration(
             // color: Colors.white,
@@ -400,9 +400,9 @@ class DatePickerContent extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   constraints: BoxConstraints(
-                    maxHeight:
-                        datePickerHeaderPortraitHeight *
-                        fontScaleAdjustedHeaderHeight,
+                    // maxHeight:
+                    //     datePickerHeaderPortraitHeight *
+                    //     fontScaleAdjustedHeaderHeight,
                   ),
 
                   child: SingleChildScrollView(
