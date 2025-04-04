@@ -33,6 +33,7 @@ class Home extends StatelessWidget {
                   useRootNavigator: true,
                   showDragHandle: true,
                   useSafeArea: true,
+                  isScrollControlled: true,
                   builder: (context) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -95,7 +96,7 @@ class Home extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 24),
+                          SizedBox(height: 32),
                         ],
                       ),
                     );

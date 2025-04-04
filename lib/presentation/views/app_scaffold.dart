@@ -86,14 +86,14 @@ class AppScaffold extends StatelessWidget {
                       isBigScreen
                           ? Border(
                             left: BorderSide(
-                              width: 1.0,
+                              width: .50,
                               color:
                                   Theme.of(context).colorScheme.outlineVariant,
                             ),
                           )
                           : Border(
                             bottom: BorderSide(
-                              width: 1.0,
+                              width: .50,
                               color:
                                   Theme.of(context).colorScheme.outlineVariant,
                             ),
