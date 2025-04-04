@@ -152,31 +152,28 @@ class ChangeDisplayNamePageState extends State<ChangeDisplayNamePage> {
                 ),
               ),
               const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ExpandedBtn(
-                  onPressed: _saveDisplayName,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(btnRadius),
-                    ),
+              ExpandedBtn(
+                onPressed: _saveDisplayName,
+                style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(btnRadius),
                   ),
-                  child:
-                      (state is DisplayNameUpdating)
-                          ? SizedBox(
-                            height: 18,
-                            width: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.secondaryContainer,
-                            ),
-                          )
-                          : const Text("Save"),
                 ),
+                child:
+                    (state is DisplayNameUpdating)
+                        ? SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer,
+                          ),
+                        )
+                        : const Text("Save"),
               ),
             ],
           ),

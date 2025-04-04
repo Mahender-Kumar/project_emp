@@ -156,43 +156,40 @@ class ChangePasswordPageState extends State<ChangePasswordPage> {
                               : null,
                 ),
                 const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ExpandedBtn(
-                    onPressed:
-                        isLoading
-                            ? null
-                            : () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<ChangePasswordBloc>().add(
-                                  ChangePasswordSubmitted(
-                                    oldPassword: _oldPasswordController.text,
-                                    newPassword: _newPasswordController.text,
-                                  ),
-                                );
-                              }
-                            },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(btnRadius),
-                      ),
+                ExpandedBtn(
+                  onPressed:
+                      isLoading
+                          ? null
+                          : () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<ChangePasswordBloc>().add(
+                                ChangePasswordSubmitted(
+                                  oldPassword: _oldPasswordController.text,
+                                  newPassword: _newPasswordController.text,
+                                ),
+                              );
+                            }
+                          },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(btnRadius),
                     ),
-                    child:
-                        isLoading
-                            ? SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).colorScheme.secondaryContainer,
-                              ),
-                            )
-                            : const Text("Update password"),
                   ),
+                  child:
+                      isLoading
+                          ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.secondaryContainer,
+                            ),
+                          )
+                          : const Text("Update password"),
                 ),
               ],
             ),
