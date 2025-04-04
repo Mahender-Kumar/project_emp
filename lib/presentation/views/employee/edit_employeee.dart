@@ -204,13 +204,19 @@ class _EditEmployeeState extends State<EditEmployee> {
                       ExpandedBtn(
                         style: FilledButton.styleFrom(
                           backgroundColor:
-                              Theme.of(context).colorScheme.surfaceContainer,
+                              Theme.of(context).colorScheme.secondaryContainer,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(btnRadius),
                           ),
                         ),
                         onPressed: () => context.pop(),
-                        child: const Text("Cancel"),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.titleSmall?.color,
+                          ),
+                        ),
                       ),
                       const SizedBox(width: defaultGapping),
                       BlocConsumer<EditEmployeeBloc, EmployeeState>(

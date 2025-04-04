@@ -227,7 +227,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       ExpandedBtn(
                         style: FilledButton.styleFrom(
                           backgroundColor:
-                              Theme.of(context).colorScheme.surfaceContainer,
+                              Theme.of(context).colorScheme.secondaryContainer,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(btnRadius),
                           ),
@@ -235,7 +235,13 @@ class _AddEmployeeState extends State<AddEmployee> {
                         onPressed: () {
                           context.pop(); // Close the screen
                         },
-                        child: const Text("Cancel"),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.titleSmall?.color,
+                          ),
+                        ),
                       ),
                       SizedBox(width: defaultGapping),
                       BlocConsumer<AddEmployeeBloc, EmployeeState>(
