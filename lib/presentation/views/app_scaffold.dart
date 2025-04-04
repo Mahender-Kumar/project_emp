@@ -79,11 +79,11 @@ class AppScaffold extends StatelessWidget {
           Breakpoints.smallAndUp: SlotLayout.from(
             key: const Key('Body All'),
             builder: (_) {
-              final isSmallScreen = MediaQuery.of(context).size.width >= 600;
+              final isBigScreen = MediaQuery.of(context).size.width >= 600;
               return Container(
                 decoration: BoxDecoration(
                   border:
-                      isSmallScreen
+                      isBigScreen
                           ? Border(
                             left: BorderSide(
                               width: 1.0,
@@ -91,7 +91,13 @@ class AppScaffold extends StatelessWidget {
                                   Theme.of(context).colorScheme.outlineVariant,
                             ),
                           )
-                          : null,
+                          : Border(
+                            bottom: BorderSide(
+                              width: 1.0,
+                              color:
+                                  Theme.of(context).colorScheme.outlineVariant,
+                            ),
+                          ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: body,
