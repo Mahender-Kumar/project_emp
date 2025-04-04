@@ -201,7 +201,7 @@ class _EditEmployeeState extends State<EditEmployee> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ExpandedBtn(
+                      FilledButton(
                         style: FilledButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.secondaryContainer,
@@ -235,7 +235,7 @@ class _EditEmployeeState extends State<EditEmployee> {
                           }
                         },
                         builder: (context, state) {
-                          return ExpandedBtn(
+                          return FilledButton(
                             style: FilledButton.styleFrom(
                               backgroundColor:
                                   Theme.of(context).colorScheme.primary,
