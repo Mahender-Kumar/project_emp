@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/views/home/components/leading_name_icon.dart';
-import 'package:project_emp/presentation/widgets/expanded_btn.dart'; 
+import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 
 class DeleteAccountPage extends StatelessWidget {
   DeleteAccountPage({super.key});
@@ -154,7 +154,7 @@ class DeleteAccountPage extends StatelessWidget {
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 32),
                 ],
               ),
             ),
