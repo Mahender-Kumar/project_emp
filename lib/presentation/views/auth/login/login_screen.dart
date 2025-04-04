@@ -6,7 +6,7 @@ import 'package:project_emp/blocs/auth/auth_event.dart';
 import 'package:project_emp/blocs/auth/auth_state.dart';
 import 'package:project_emp/core/constants/constants.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
-import 'package:project_emp/services/email_validator.dart'; 
+import 'package:project_emp/services/email_validator.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: defaultGapping * 4),
-                   
+
                     SizedBox(height: defaultGapping * 2),
                     Container(
                       padding: EdgeInsets.symmetric(
@@ -147,58 +147,66 @@ class LoginScreen extends StatelessWidget {
 
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
-                        return ExpandedBtn(
-                          style: FilledButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onSurface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(btnRadius),
+                        return Center(
+                          child: ExpandedBtn(
+                            style: FilledButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(btnRadius),
+                              ),
                             ),
-                          ),
-                          onPressed:
-                              state is AuthLoading
-                                  ? null
-                                  : () => _authenticate(context),
-                          child:
-                              state is AuthLoading
-                                  ? SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: const CircularProgressIndicator(),
-                                  )
-                                  : Text(
-                                    "Login",
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodySmall?.copyWith(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                      fontWeight: FontWeight.bold,
+                            onPressed:
+                                state is AuthLoading
+                                    ? null
+                                    : () => _authenticate(context),
+                            child:
+                                state is AuthLoading
+                                    ? SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: const CircularProgressIndicator(),
+                                    )
+                                    : Text(
+                                      "Login",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall?.copyWith(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
+                          ),
                         );
                       },
                     ),
 
                     const SizedBox(height: defaultPadding),
-                    ExpandedBtn(
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onInverseSurface,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(btnRadius),
+                    Center(
+                      child: ExpandedBtn(
+                        style: FilledButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onInverseSurface,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(btnRadius),
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        context.go('/signup');
-                      },
-                      child: Text(
-                        "Create Account",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        onPressed: () {
+                          context.go('/signup');
+                        },
+                        child: Text(
+                          "Create Account",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
+                          ),
                         ),
                       ),
                     ),

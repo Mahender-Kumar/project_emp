@@ -11,6 +11,7 @@ class ExployeeListview extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverFillRemaining(
       child: Column(
+        // shrinkWrap: true,
         children: [
           BlocBuilder<FetchEmployeeBloc, EmployeeState>(
             builder: (context, state) {
@@ -20,7 +21,9 @@ class ExployeeListview extends StatelessWidget {
                 return Center(child: Text("Error: ${state.error}"));
               } else if (state is EmployeeSuccess) {
                 if (state.employees.isEmpty) {
-                  return const Center(child: Text("No employee records found"));
+                  return Flexible(
+                    child: Center(child: Text("No employee records found")),
+                  );
                 }
 
                 final currentEmployees =
