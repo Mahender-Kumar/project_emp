@@ -7,7 +7,7 @@ import 'package:project_emp/presentation/views/home/components/leading_name_icon
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 
 class DeleteAccountPage extends StatefulWidget {
-  DeleteAccountPage({super.key});
+  const DeleteAccountPage({super.key});
 
   @override
   State<DeleteAccountPage> createState() => _DeleteAccountPageState();

@@ -28,3 +28,9 @@ const double datePickerHeaderPortraitHeight = 120.0;
 const double fontSizeToScale = 14.0;
 const double kMaxHeaderTextScaleFactor = 1.6;
 const double kMaxHeaderWithEntryTextScaleFactor = 1.4;
+
+const double kMaxTextScaleFactor = 3.0;
+
+const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
+
+

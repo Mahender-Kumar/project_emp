@@ -11,7 +11,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +151,8 @@ class MyDatePickerDialog extends StatelessWidget {
   final bool showSundayButton;
   final bool showNoDateButton;
 
-  const MyDatePickerDialog({
-    Key? key,
+  MyDatePickerDialog({
+    super.key,
     this.initialDate,
     this.maxDate,
     this.minDate,
@@ -166,10 +166,18 @@ class MyDatePickerDialog extends StatelessWidget {
     required this.showOneweekAfterButton,
     required this.showNoDateButton,
     required this.showSundayButton,
-  }) : super(key: key);
+  });
+
+  final Size _calendarPortraitDialogSizeM3 = Size(360.0, 512.0);
 
   @override
   Widget build(BuildContext context) {
+    final double textScaleFactor =
+        MediaQuery.textScalerOf(
+          context,
+        ).clamp(maxScaleFactor: kMaxTextScaleFactor).scale(fontSizeToScale) /
+        fontSizeToScale;
+    final Size dialogSize = _calendarPortraitDialogSizeM3 * textScaleFactor;
     return BlocProvider(
       create: (context) {
         final cubit = DatePickerCubit();
@@ -181,20 +189,32 @@ class MyDatePickerDialog extends StatelessWidget {
       child: Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: DatePickerContent(
-          minDate: minDate,
-          maxDate: maxDate,
-          initialDate: initialDate,
-          showTodayButton: showTodayButton,
-          showMondayButton: showMondayButton,
-          showTuesdayButton: showTuesdayButton,
-          showWednesdayButton: showWednesdayButton,
-          showThursdayButton: showThursdayButton,
-          showFridayButton: showFridayButton,
-          showSaturdayButton: showSaturdayButton,
-          showSundayButton: showSundayButton,
-          showNoDateButton: showNoDateButton,
-          showOneweekAfterButton: showOneweekAfterButton,
+        child: AnimatedContainer(
+          constraints: BoxConstraints(
+            maxWidth: dialogSize.width,
+            maxHeight: dialogSize.height,
+          ),
+          duration: dialogSizeAnimationDuration,
+          curve: Curves.easeIn,
+          child: MediaQuery.withClampedTextScaling(
+            maxScaleFactor: kMaxTextScaleFactor,
+
+            child: DatePickerContent(
+              minDate: minDate,
+              maxDate: maxDate,
+              initialDate: initialDate,
+              showTodayButton: showTodayButton,
+              showMondayButton: showMondayButton,
+              showTuesdayButton: showTuesdayButton,
+              showWednesdayButton: showWednesdayButton,
+              showThursdayButton: showThursdayButton,
+              showFridayButton: showFridayButton,
+              showSaturdayButton: showSaturdayButton,
+              showSundayButton: showSundayButton,
+              showNoDateButton: showNoDateButton,
+              showOneweekAfterButton: showOneweekAfterButton,
+            ),
+          ),
         ),
       ),
     );
@@ -216,7 +236,7 @@ class MyDatePickerDialog extends StatelessWidget {
     bool? showSundayButton,
     bool? showNoDateButton,
   }) async {
-    print("Show Date Picker Dialog: $showTodayButton");
+    // print("Show Date Picker Dialog: $showTodayButton");
     return showDialog<DateTime>(
       context: context,
       builder:
@@ -332,7 +352,7 @@ class DatePickerContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(showTodayButton);
+    // print(showTodayButton);
     return BlocBuilder<DatePickerCubit, DatePickerState>(
       builder: (context, state) {
         final DatePickerCubit cubit = context.read<DatePickerCubit>();
@@ -510,7 +530,7 @@ class DatePickerContent extends StatelessWidget {
         final double headerScaleFactor =
             textScaleFactor > 1 ? textScaleFactor : 1.0;
 
-        print("Button Rows: ${buttonRows.length}");
+        // print("Button Rows: ${buttonRows.length}");
         final double fontScaleAdjustedHeaderHeight =
             headerScaleFactor > 1.3 ? headerScaleFactor - 0.2 : 1.0;
         return Container(
@@ -572,61 +592,6 @@ class DatePickerContent extends StatelessWidget {
                   ),
                 ),
 
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 12,
-                //     vertical: 8,
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: _quickDateButton(
-                //           context,
-                //           "Today",
-                //           state.today,
-                //           state.selectedDate,
-                //         ),
-                //       ),
-                //       const SizedBox(width: 12),
-                //       Expanded(
-                //         child: _quickDateButton(
-                //           context,
-                //           "Next Monday",
-                //           context.read<DatePickerCubit>().getNextMonday(),
-                //           state.selectedDate,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // // Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 12,
-                //     vertical: 8,
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: _quickDateButton(
-                //           context,
-                //           "Next Tuesday",
-                //           context.read<DatePickerCubit>().getNextTuesday(),
-                //           state.selectedDate,
-                //         ),
-                //       ),
-                //       const SizedBox(width: 12),
-                //       Expanded(
-                //         child: _quickDateButton(
-                //           context,
-                //           "After 1 week",
-                //           context.read<DatePickerCubit>().getNextWeek(),
-                //           state.selectedDate,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-
                 // Built-in Calendar DatePicker
                 CalendarDatePicker(
                   key: calendarKey,
@@ -640,37 +605,64 @@ class DatePickerContent extends StatelessWidget {
                 ),
 
                 // Bottom bar
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.calendar_today),
-                      const SizedBox(width: 8),
-                      Text(
-                        DateFormat('d MMM yyyy').format(state.selectedDate),
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        child: const Text("Cancel"),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: defaultIconSize),
+                        const SizedBox(width: 8),
+                        Text(
+                          DateFormat('d MMM yyyy').format(state.selectedDate),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const Spacer(),
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(btnRadius),
+                            ),
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.titleSmall?.color,
+                            ),
                           ),
                         ),
-                        child: const Text("Save"),
-                        onPressed:
-                            () => Navigator.of(context).pop(state.selectedDate),
-                      ),
-                    ],
+                        const SizedBox(width: 8),
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(btnRadius),
+                            ),
+                          ),
+                          child: const Text("Save"),
+                          onPressed:
+                              () =>
+                                  Navigator.of(context).pop(state.selectedDate),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -734,7 +726,7 @@ class DatePickerContent extends StatelessWidget {
 }
 
 class ExampleUsage extends StatefulWidget {
-  const ExampleUsage({Key? key}) : super(key: key);
+  const ExampleUsage({super.key});
 
   @override
   State<ExampleUsage> createState() => _ExampleUsageState();

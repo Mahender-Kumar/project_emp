@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_emp/extensions/time_extensions.dart';
-import 'package:project_emp/presentation/widgets/test3.dart';
+import 'package:project_emp/presentation/widgets/custom_date_picker_dialog.dart';
 
 class DatePicker extends StatelessWidget {
   final String? label;
@@ -72,9 +72,9 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? initDate = convertDate(this.initialDate);
-    DateTime? max = convertDate(this.maxDate);
-    DateTime? min = convertDate(this.minDate);
+    DateTime? initDate = convertDate(initialDate);
+    DateTime? max = convertDate(maxDate);
+    DateTime? min = convertDate(minDate);
 
     // Set controller text based on initialDate
     controller.text = _controllerText(initDate);

@@ -53,12 +53,12 @@ class ChangePasswordBloc
         emit(ChangePasswordSuccess());
       } on FirebaseAuthException catch (e) {
         String msg = 'Something went wrong';
-        if (e.code == 'wrong-password')
+        if (e.code == 'wrong-password') {
           msg = 'Old password is incorrect';
-        else if (e.code == 'weak-password')
-          msg = 'New password is too weak';
+        } else if (e.code == 'weak-password')
+         { msg = 'New password is too weak';}
         else if (e.code == 'requires-recent-login')
-          msg = 'Please log in again and try';
+        {  msg = 'Please log in again and try';}
 
         emit(ChangePasswordFailure(msg));
       }

@@ -10,7 +10,7 @@ abstract class EmployeeEvent extends Equatable {
 class AddEmployeeEvent extends EmployeeEvent {
   final Employee employee;
 
-  AddEmployeeEvent(this.employee);
+  const AddEmployeeEvent(this.employee);
 
   @override
   List<Object> get props => [employee];
@@ -20,7 +20,7 @@ class LoadEmployees extends EmployeeEvent {}
 
 class UpdateEmployeesEvent extends EmployeeEvent {
   final List<Employee> employees;
-  UpdateEmployeesEvent(this.employees);
+  const UpdateEmployeesEvent(this.employees);
 
   @override
   List<Object> get props => [employees];
@@ -28,7 +28,7 @@ class UpdateEmployeesEvent extends EmployeeEvent {
 
 class UpdateEmployeeEvent extends EmployeeEvent {
   final Employee employee;
-  UpdateEmployeeEvent(this.employee);
+  const UpdateEmployeeEvent(this.employee);
   @override
   List<Object> get props => [employee];
 }

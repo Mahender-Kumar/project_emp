@@ -108,8 +108,9 @@ class Home extends StatelessWidget {
             snap: false,
           ),
           ExployeeListview(),
-        ],
+        ],  
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.push('/add');

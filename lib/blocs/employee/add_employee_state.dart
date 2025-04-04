@@ -14,7 +14,7 @@ class EmployeeLoading extends EmployeeState {}
 class EmployeeSuccess extends EmployeeState {
   final List<Employee> employees;
 
-  EmployeeSuccess(this.employees);
+  const EmployeeSuccess(this.employees);
 
   @override
   List<Object> get props => [employees];
@@ -23,7 +23,7 @@ class EmployeeSuccess extends EmployeeState {
 class EmployeeFailure extends EmployeeState {
   final String error;
 
-  EmployeeFailure(this.error);
+  const EmployeeFailure(this.error);
 
   @override
   List<Object> get props => [error];
