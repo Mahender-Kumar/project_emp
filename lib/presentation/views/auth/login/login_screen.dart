@@ -147,69 +147,67 @@ class LoginScreen extends StatelessWidget {
 
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
-                        return Center(
-                          child: ExpandedBtn(
-                            style: FilledButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(btnRadius),
-                              ),
+                        return ExpandedBtn(
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.onSurface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(btnRadius),
                             ),
-                            onPressed:
-                                state is AuthLoading
-                                    ? null
-                                    : () => _authenticate(context),
-                            child:
-                                state is AuthLoading
-                                    ? SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: const CircularProgressIndicator(),
-                                    )
-                                    : Text(
-                                      "Login",
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodySmall?.copyWith(
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
                           ),
+                          onPressed:
+                              state is AuthLoading
+                                  ? null
+                                  : () => _authenticate(context),
+                          child:
+                              state is AuthLoading
+                                  ? SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: const CircularProgressIndicator(),
+                                  )
+                                  : Text(
+                                    "Login",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall?.copyWith(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                         );
                       },
                     ),
 
                     const SizedBox(height: defaultPadding),
-                    Center(
-                      child: ExpandedBtn(
-                        style: FilledButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.onInverseSurface,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(btnRadius),
-                          ),
-                        ),
-                        onPressed: () {
-                          context.go('/signup');
-                        },
-                        child: Text(
-                          "Create Account",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(
-                                  context,
-                                ).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Center(
+                    //   child: ExpandedBtn(
+                    //     style: FilledButton.styleFrom(
+                    //       backgroundColor:
+                    //           Theme.of(context).colorScheme.onInverseSurface,
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(btnRadius),
+                    //       ),
+                    //     ),
+                    //     onPressed: () {
+                    //       context.go('/signup');
+                    //     },
+                    //     child: Text(
+                    //       "Create Account",
+                    //       style: Theme.of(
+                    //         context,
+                    //       ).textTheme.bodySmall?.copyWith(
+                    //         color:
+                    //             Theme.of(
+                    //               context,
+                    //             ).colorScheme.onPrimaryContainer,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(height: defaultPadding),
                   ],
                 ),
