@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/presentation/widgets/expanded_btn.dart'; 
+import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -43,7 +43,7 @@ class ChangePasswordPageState extends State<ChangePasswordPage> {
 
       // Update the password
       await user.updatePassword(_newPasswordController.text);
- 
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Password changed successfully!')),
@@ -59,10 +59,10 @@ class ChangePasswordPageState extends State<ChangePasswordPage> {
       } else if (e.code == 'requires-recent-login') {
         errorMessage = "Please log in again and retry.";
       }
-      if(mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     } finally {
       setState(() => _isLoading = false);
@@ -131,18 +131,29 @@ class ChangePasswordPageState extends State<ChangePasswordPage> {
                         : null,
           ),
           const SizedBox(height: 16),
-          _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : ExpandedBtn(
-                onPressed: _changePassword,
-                style: FilledButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(btnRadius),
-                  ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: ExpandedBtn(
+              onPressed: _changePassword,
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(btnRadius),
                 ),
-                child: const Text("Set a password"),
               ),
+              child:
+                  _isLoading
+                      ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                        ),
+                      )
+                      : const Text("Update password"),
+            ),
+          ),
         ],
       ),
     );

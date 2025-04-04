@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_emp/core/constants/constants.dart';
-import 'package:project_emp/presentation/widgets/expanded_btn.dart'; 
+import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 
 class ChangeDisplayNamePage extends StatefulWidget {
   const ChangeDisplayNamePage({super.key});
@@ -41,11 +41,12 @@ class ChangeDisplayNamePageState extends State<ChangeDisplayNamePage> {
         await user.updateDisplayName(_controller.text.trim());
         await user.reload(); // Refresh user data
 
-        setState(() {
-          _currentName = _controller.text;
-        });
+        // setState(() {
+        //   _currentName = _controller.text;
+        // });
 
         if (mounted) {
+          context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Display name updated successfully!")),
           );
@@ -99,15 +100,18 @@ class ChangeDisplayNamePageState extends State<ChangeDisplayNamePage> {
             ),
           ),
           const SizedBox(height: 16),
-          ExpandedBtn(
-            onPressed: _saveDisplayName,
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(btnRadius),
+          Align(
+            alignment: Alignment.centerRight,
+            child: ExpandedBtn(
+              onPressed: _saveDisplayName,
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(btnRadius),
+                ),
               ),
+              child: const Text("Save"),
             ),
-            child: const Text("Save"),
           ),
         ],
       ),
