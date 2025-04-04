@@ -6,11 +6,18 @@ import 'package:project_emp/presentation/services/auth_service.dart';
 import 'package:project_emp/presentation/views/home/components/leading_name_icon.dart';
 import 'package:project_emp/presentation/widgets/expanded_btn.dart';
 
-class DeleteAccountPage extends StatelessWidget {
+class DeleteAccountPage extends StatefulWidget {
   DeleteAccountPage({super.key});
 
+  @override
+  State<DeleteAccountPage> createState() => _DeleteAccountPageState();
+}
+
+class _DeleteAccountPageState extends State<DeleteAccountPage> {
   final AuthService _authService = AuthService();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController _passwordController = TextEditingController();
 
   /// Delete the user's Firebase account
@@ -52,114 +59,118 @@ class DeleteAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {
-                  context.pop();
-                },
-                icon: Icon(Icons.close_sharp),
-              ),
-            ],
-          ),
-          Center(child: Icon(Icons.error_outline, color: Colors.red)),
-
-          ListTile(
-            dense: true,
-            titleAlignment: ListTileTitleAlignment.center,
-            title: Center(
-              child: const Text("Delete your entire account permanently"),
+      padding: EdgeInsets.all(8),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: Icon(Icons.close_sharp),
+                ),
+              ],
             ),
-            subtitle: const Text(
-              'This action cannot be undone. This will permanently delete your account.',
-              softWrap: true,
-              textAlign: TextAlign.center,
-            ),
-          ),
+            Center(child: Icon(Icons.error_outline, color: Colors.red)),
 
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(btnRadius),
-              side: const BorderSide(color: Colors.grey, width: 0.5),
-            ),
-
-            child: ListTile(
+            ListTile(
               dense: true,
-              leading: LeadingNameIcon(),
-              title: Text("${_authService.currentUser?.displayName}"),
-              subtitle: Text("${_authService.currentUser?.email}"),
-            ),
-          ),
-          Form(
-            key: _formKey,
-            child: Card(
-              elevation: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Please type in your password to confirm",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  SizedBox(height: defaultGapping / 2),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      isDense: true,
-                      hintText: "${_authService.currentUser?.email}",
-                      border: OutlineInputBorder(),
-                    ),
-                    controller: _passwordController,
-                    validator:
-                        (value) =>
-                            value!.isEmpty
-                                ? "Please type password to continue"
-                                : null,
-                  ),
-                  SizedBox(height: defaultGapping),
-                  ExpandedBtn(
-                    onPressed: () => _deleteAccount(context),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(btnRadius),
-                      ),
-                    ),
-                    child: const Text(
-                      "Delete Account",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(height: defaultGapping),
-                  ExpandedBtn(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      overlayColor: Colors.grey[50],
-                      backgroundColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(btnRadius),
-                      ),
-                    ),
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                ],
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Center(
+                child: const Text("Delete your entire account permanently"),
+              ),
+              subtitle: const Text(
+                'This action cannot be undone. This will permanently delete your account.',
+                softWrap: true,
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-        ],
+
+            Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(btnRadius),
+                side: const BorderSide(color: Colors.grey, width: 0.5),
+              ),
+
+              child: ListTile(
+                dense: true,
+                leading: LeadingNameIcon(),
+                title: Text("${_authService.currentUser?.displayName}"),
+                subtitle: Text("${_authService.currentUser?.email}"),
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Card(
+                elevation: 0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Please type in your password to confirm",
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                    SizedBox(height: defaultGapping / 2),
+                    TextFormField(
+                      // autofocus: true,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: "${_authService.currentUser?.email}",
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _passwordController,
+                      validator:
+                          (value) =>
+                              value!.isEmpty
+                                  ? "Please type password to continue"
+                                  : null,
+                    ),
+                    SizedBox(height: defaultGapping),
+                    ExpandedBtn(
+                      onPressed: () => _deleteAccount(context),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(btnRadius),
+                        ),
+                      ),
+                      child: const Text(
+                        "Delete Account",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(height: defaultGapping),
+                    ExpandedBtn(
+                      onPressed: () {},
+                      style: FilledButton.styleFrom(
+                        overlayColor: Colors.grey[50],
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondaryContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(btnRadius),
+                        ),
+                      ),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    SizedBox(height: 32),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
