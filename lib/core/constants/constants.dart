@@ -34,3 +34,4 @@ const double kMaxTextScaleFactor = 3.0;
 const Duration dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
 
+const mAnimationDuration = Duration(milliseconds: 200);

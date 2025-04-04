@@ -34,4 +34,3 @@ class ColorConst {
   ColorConst._internal();
 }
 
-const mAnimationDuration = Duration(milliseconds: 200);
