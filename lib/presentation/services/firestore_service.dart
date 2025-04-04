@@ -26,7 +26,7 @@ class FirestoreService {
     return _firestore.collection("employees").snapshots();
   }
 
-  Future<void> moveToTrash(Employee employee) async {
+  Future<void> deleteEmployee(Employee employee) async {
     final user = _authService.currentUser;
     if (user == null) throw Exception("User is not logged in");
     await _firestore.collection("employees").doc(employee.id).delete();
@@ -37,6 +37,19 @@ class FirestoreService {
     await _firestore.collection("deleted_employees").doc(employee.id).set({
       ...employeeData,
     });
+  }
+
+  Future<void> terminateEmployee(Employee employee) async {
+    final user = _authService.currentUser;
+    if (user == null) throw Exception("User is not logged in");
+    final employeeData = employee.toMap();
+    employeeData['terminatedAt'] = DateTime.now().toIso8601String();
+    employeeData['leavingDate'] = DateTime.now().toIso8601String();
+    employeeData['isCurrent'] = false;
+    await _firestore
+        .collection("employees")
+        .doc(employee.id)
+        .set(employeeData, SetOptions(merge: true));
   }
 
   Stream<List<Map<String, dynamic>>> getDeletedEmployee() {

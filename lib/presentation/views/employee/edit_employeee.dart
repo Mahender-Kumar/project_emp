@@ -46,7 +46,7 @@ class _EditEmployeeState extends State<EditEmployee> {
         actions: [
           IconButton(
             onPressed: () async {
-              await firestoreService.moveToTrash(employee);
+              await firestoreService.deleteEmployee(employee);
               if (context.mounted) {
                 Navigator.of(context).pop(true);
               }
