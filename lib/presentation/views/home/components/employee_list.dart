@@ -41,7 +41,9 @@ class ExployeeListview extends StatelessWidget {
                           children: [
                             ListTile(
                               tileColor:
-                                  Theme.of(context).colorScheme.surfaceBright,
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                               dense: true,
                               title: const Text('Current Employees'),
                             ),
@@ -92,7 +94,9 @@ class ExployeeListview extends StatelessWidget {
                             ListTile(
                               dense: true,
                               tileColor:
-                                  Theme.of(context).colorScheme.surfaceBright,
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                               title: const Text('Previous Employees'),
                             ),
                             ListView.builder(
