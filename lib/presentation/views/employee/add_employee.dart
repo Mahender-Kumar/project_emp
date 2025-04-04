@@ -144,9 +144,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   context.watch<JobCubit>().state?.title ??
                                   'Select Role',
                             ),
-                            validator:
-                                (value) =>
-                                    value!.isEmpty ? "Please enter role" : null,
+                            validator: (value) {
+                              return (value!.isEmpty || value == 'Select Role')
+                                  ? "Please enter role"
+                                  : null;
+                            },
                             onChanged: (value) => employee.position = value,
                           ),
                         ),
