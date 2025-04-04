@@ -101,9 +101,19 @@ class DatePicker extends StatelessWidget {
       onTap: () async {
         final DateTime? date = await MyDatePickerDialog.show(
           context,
-          initialDate: initDate ?? DateTime.now(),
+          initialDate: initDate,
           minDate: min ?? DateTime(1950),
           maxDate: max ?? DateTime(2101),
+          showTodayButton: showTodayButton,
+          showMondayButton: showMondayButton,
+          showTuesdayButton: showTuesdayButton,
+          showWednesdayButton: showWednesdayButton,
+          showThursdayButton: showThursdayButton,
+          showFridayButton: showFridayButton,
+          showSaturdayButton: showSaturdayButton,
+          showSundayButton: showSundayButton,
+          showNoDateButton: showNoDateButton,
+          showOneweekAfterButton: showOneweekAfterButton,
         );
 
         if (date != null) {

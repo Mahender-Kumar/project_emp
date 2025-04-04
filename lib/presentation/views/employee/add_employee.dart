@@ -189,7 +189,13 @@ class _AddEmployeeState extends State<AddEmployee> {
                                     showNoDateButton: true,
                                     showTodayButton: true,
                                     minDate: datesState.hireDate,
-                                    initialDate: datesState.leavingDate,
+                                    initialDate:
+                                        (datesState.leavingDate != null &&
+                                                datesState.leavingDate!.isAfter(
+                                                  datesState.hireDate,
+                                                ))
+                                            ? datesState.leavingDate
+                                            : null,
                                     controller: TextEditingController(
                                       text:
                                           datesState.leavingDate != null

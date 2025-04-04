@@ -74,8 +74,58 @@ class DatePickerCubit extends Cubit<DatePickerState> {
     return date;
   }
 
+  DateTime getNextWednesday() {
+    DateTime date = state.today;
+    while (date.weekday != DateTime.wednesday) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
+  DateTime getNextThursday() {
+    DateTime date = state.today;
+    while (date.weekday != DateTime.thursday) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
+  DateTime getNextFriday() {
+    DateTime date = state.today;
+    while (date.weekday != DateTime.friday) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
+  DateTime getNextSaturday() {
+    DateTime date = state.today;
+    while (date.weekday != DateTime.saturday) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
+  DateTime getNextSunday() {
+    DateTime date = state.today;
+    while (date.weekday != DateTime.sunday) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
   DateTime getNextWeek() {
     return state.today.add(const Duration(days: 7));
+  }
+
+  bool isDateValid(DateTime date, DateTime? minDate, DateTime? maxDate) {
+    if (minDate != null && date.isBefore(minDate)) {
+      return false;
+    }
+    if (maxDate != null && date.isAfter(maxDate)) {
+      return false;
+    }
+    return true;
   }
 }
 
@@ -83,12 +133,32 @@ class MyDatePickerDialog extends StatelessWidget {
   final DateTime? initialDate;
   final DateTime? minDate;
   final DateTime? maxDate;
+  final bool showTodayButton;
+  final bool showMondayButton;
+  final bool showTuesdayButton;
+  final bool showWednesdayButton;
+  final bool showThursdayButton;
+  final bool showFridayButton;
+  final bool showSaturdayButton;
+  final bool showOneweekAfterButton;
+  final bool showSundayButton;
+  final bool showNoDateButton;
 
   const MyDatePickerDialog({
     Key? key,
     this.initialDate,
     this.maxDate,
     this.minDate,
+    required this.showTodayButton,
+    required this.showMondayButton,
+    required this.showTuesdayButton,
+    required this.showWednesdayButton,
+    required this.showThursdayButton,
+    required this.showFridayButton,
+    required this.showSaturdayButton,
+    required this.showOneweekAfterButton,
+    required this.showNoDateButton,
+    required this.showSundayButton,
   }) : super(key: key);
 
   @override
@@ -108,6 +178,16 @@ class MyDatePickerDialog extends StatelessWidget {
           minDate: minDate,
           maxDate: maxDate,
           initialDate: initialDate,
+          showTodayButton: showTodayButton,
+          showMondayButton: showMondayButton,
+          showTuesdayButton: showTuesdayButton,
+          showWednesdayButton: showWednesdayButton,
+          showThursdayButton: showThursdayButton,
+          showFridayButton: showFridayButton,
+          showSaturdayButton: showSaturdayButton,
+          showSundayButton: showSundayButton,
+          showNoDateButton: showNoDateButton,
+          showOneweekAfterButton: showOneweekAfterButton,
         ),
       ),
     );
@@ -118,7 +198,18 @@ class MyDatePickerDialog extends StatelessWidget {
     DateTime? initialDate,
     DateTime? minDate,
     DateTime? maxDate,
+    bool? showTodayButton,
+    bool? showMondayButton,
+    bool? showTuesdayButton,
+    bool? showWednesdayButton,
+    bool? showThursdayButton,
+    bool? showFridayButton,
+    bool? showSaturdayButton,
+    bool? showOneweekAfterButton,
+    bool? showSundayButton,
+    bool? showNoDateButton,
   }) async {
+    print("Show Date Picker Dialog: $showTodayButton");
     return showDialog<DateTime>(
       context: context,
       builder:
@@ -126,6 +217,16 @@ class MyDatePickerDialog extends StatelessWidget {
             initialDate: initialDate,
             minDate: minDate,
             maxDate: maxDate,
+            showTodayButton: showTodayButton ?? false,
+            showMondayButton: showMondayButton ?? false,
+            showTuesdayButton: showTuesdayButton ?? false,
+            showWednesdayButton: showWednesdayButton ?? false,
+            showThursdayButton: showThursdayButton ?? false,
+            showFridayButton: showFridayButton ?? false,
+            showSaturdayButton: showSaturdayButton ?? false,
+            showSundayButton: showSundayButton ?? false,
+            showNoDateButton: showNoDateButton ?? false,
+            showOneweekAfterButton: showOneweekAfterButton ?? false,
           ),
     );
   }
@@ -133,7 +234,7 @@ class MyDatePickerDialog extends StatelessWidget {
 
 class DatePickerContent extends StatelessWidget {
   DatePickerContent({
-    Key? key,
+    super.key,
     this.initialDate,
     this.minDate,
     this.maxDate,
@@ -147,17 +248,17 @@ class DatePickerContent extends StatelessWidget {
     this.onNextSundayPressed,
     this.onAfterOneWeekPressed,
     this.onNoDatePressed,
-    this.showTodayButton = false,
-    this.showMondayButton = false,
-    this.showTuesdayButton = false,
-    this.showWednesdayButton = false,
-    this.showThursdayButton = false,
-    this.showFridayButton = false,
-    this.showSaturdayButton = false,
-    this.showOneweekAfterButton = false,
-    this.showNoDateButton = false,
-    this.showSundayButton = false,
-  }) : super(key: key);
+    required this.showTodayButton,
+    required this.showMondayButton,
+    required this.showTuesdayButton,
+    required this.showWednesdayButton,
+    required this.showThursdayButton,
+    required this.showFridayButton,
+    required this.showSaturdayButton,
+    required this.showOneweekAfterButton,
+    required this.showNoDateButton,
+    required this.showSundayButton,
+  });
 
   final VoidCallback? onTodayPressed;
   final VoidCallback? onNextMondayPressed;
@@ -183,292 +284,363 @@ class DatePickerContent extends StatelessWidget {
   final DateTime? minDate;
   final DateTime? maxDate;
   final DateTime? initialDate;
-  Widget _buildButton(
-    String text,
-    VoidCallback? onPressed,
-    bool isVisible,
-    context,
-  ) {
-    return Expanded(
-      child:
-          isVisible
-              ? TextButton(
-                style: ButtonStyle(
-                  // backgroundColor: WidgetStatePropertyAll(
-                  //   Theme.of(context).colorScheme.onSecondary,
-                  // ),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                onPressed: onPressed,
-                child: Text(text),
-              )
-              : const SizedBox(), // Empty space when button is not visible
-    );
-  }
+
+  // Widget _quickDateButton(
+  //   String text,
+  //   VoidCallback? onPressed,
+  //   bool isVisible,
+  //   context,
+  // ) {
+  //   return Expanded(
+  //     child:
+  //         isVisible
+  //             ? TextButton(
+  //               style: ButtonStyle(
+  //                 // backgroundColor: WidgetStatePropertyAll(
+  //                 //   Theme.of(context).colorScheme.onSecondary,
+  //                 // ),
+  //                 shape: WidgetStatePropertyAll(
+  //                   RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(4),
+  //                   ),
+  //                 ),
+  //               ),
+  //               onPressed: onPressed,
+  //               child: Text(text),
+  //             )
+  //             : const SizedBox(), // Empty space when button is not visible
+  //   );
+  // }
 
   GlobalKey calendarKey = GlobalKey();
+  bool _isDateValid(DateTime date) {
+    if (minDate != null && date.isBefore(minDate!)) {
+      return false;
+    }
+    if (maxDate != null && date.isAfter(maxDate!)) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> buttonRows = [];
-
-    if (showTodayButton == true) {
-      buttonRows.add(
-        _buildButton('Today', onTodayPressed, showTodayButton == true, context),
-      );
-    }
-    if (showMondayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Monday',
-          onNextMondayPressed,
-          showMondayButton == true,
-          context,
-        ),
-      );
-    }
-
-    // Row 2: Next Tuesday and After 1 Week
-    if (showTuesdayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Tuesday',
-          onNextTuesdayPressed,
-          showTuesdayButton == true,
-          context,
-        ),
-      );
-    }
-    if (showOneweekAfterButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'After 1 Week',
-          onAfterOneWeekPressed,
-          showOneweekAfterButton == true,
-          context,
-        ),
-      );
-    }
-
-    // Row 3: Next Wednesday and Next Thursday
-    if (showWednesdayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Wednesday',
-          onNextWednesdayPressed,
-          showWednesdayButton == true,
-          context,
-        ),
-      );
-    }
-    if (showThursdayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Thursday',
-          onNextThursdayPressed,
-          showThursdayButton == true,
-          context,
-        ),
-      );
-    }
-
-    // Row 4: Next Friday and Next Saturday
-    if (showFridayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Friday',
-          onNextFridayPressed,
-          showFridayButton == true,
-          context,
-        ),
-      );
-    }
-    if (showSaturdayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Saturday',
-          onNextSaturdayPressed,
-          showSaturdayButton == true,
-          context,
-        ),
-      );
-    }
-    if (showSundayButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'Next Sunday',
-          onNextSundayPressed,
-          showSundayButton == true,
-          context,
-        ),
-      );
-    }
-    if (showNoDateButton == true) {
-      buttonRows.add(
-        _buildButton(
-          'No Date',
-          onNoDatePressed,
-          showNoDateButton == true,
-          context,
-        ),
-      );
-    }
-
+    print(showTodayButton);
     return BlocBuilder<DatePickerCubit, DatePickerState>(
       builder: (context, state) {
+        final DatePickerCubit cubit = context.read<DatePickerCubit>();
+
+        final DateTime today = state.today;
+        final DateTime nextMonday = cubit.getNextMonday();
+        final DateTime nextTuesday = cubit.getNextTuesday();
+        final DateTime nextWeek = cubit.getNextWeek();
+
+        // Calculate dates for other weekdays if needed
+        DateTime nextWednesday = today;
+        while (nextWednesday.weekday != DateTime.wednesday) {
+          nextWednesday = nextWednesday.add(const Duration(days: 1));
+        }
+
+        DateTime nextThursday = today;
+        while (nextThursday.weekday != DateTime.thursday) {
+          nextThursday = nextThursday.add(const Duration(days: 1));
+        }
+
+        DateTime nextFriday = today;
+        while (nextFriday.weekday != DateTime.friday) {
+          nextFriday = nextFriday.add(const Duration(days: 1));
+        }
+
+        DateTime nextSaturday = today;
+        while (nextSaturday.weekday != DateTime.saturday) {
+          nextSaturday = nextSaturday.add(const Duration(days: 1));
+        }
+
+        DateTime nextSunday = today;
+        while (nextSunday.weekday != DateTime.sunday) {
+          nextSunday = nextSunday.add(const Duration(days: 1));
+        }
+
+        // Check if dates are valid according to min/max constraints
+        final bool isTodayValid = _isDateValid(today);
+        final bool isNextMondayValid = _isDateValid(nextMonday);
+        final bool isNextTuesdayValid = _isDateValid(nextTuesday);
+        final bool isNextWednesdayValid = _isDateValid(nextWednesday);
+        final bool isNextThursdayValid = _isDateValid(nextThursday);
+        final bool isNextFridayValid = _isDateValid(nextFriday);
+        final bool isNextSaturdayValid = _isDateValid(nextSaturday);
+        final bool isNextSundayValid = _isDateValid(nextSunday);
+        final bool isNextWeekValid = _isDateValid(nextWeek);
+
+        List<Widget> buttonRows = [];
+
+        if (showTodayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Today',
+              state.today,
+              state.selectedDate,
+              isTodayValid,
+            ),
+          );
+        }
+        if (showMondayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              "Next Monday",
+              context.read<DatePickerCubit>().getNextMonday(),
+              state.selectedDate,
+              isNextMondayValid,
+            ),
+          );
+        }
+
+        // Row 2: Next Tuesday and After 1 Week
+        if (showTuesdayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              "Next Tuesday",
+              context.read<DatePickerCubit>().getNextTuesday(),
+              state.selectedDate,
+              isNextTuesdayValid,
+            ),
+          );
+        }
+        if (showOneweekAfterButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              "After 1 week",
+              context.read<DatePickerCubit>().getNextWeek(),
+              state.selectedDate,
+              isNextWeekValid,
+            ),
+          );
+        }
+
+        if (showWednesdayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Next Wednesday',
+              context.read<DatePickerCubit>().getNextWednesday(),
+              state.selectedDate,
+              isNextWednesdayValid,
+            ),
+          );
+        }
+        if (showThursdayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Next Thursday',
+              context.read<DatePickerCubit>().getNextThursday(),
+
+              state.selectedDate,
+              isNextThursdayValid,
+            ),
+          );
+        }
+
+        // Row 4: Next Friday and Next Saturday
+        if (showFridayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Next Friday',
+              context.read<DatePickerCubit>().getNextFriday(),
+
+              state.selectedDate,
+              isNextFridayValid,
+            ),
+          );
+        }
+        if (showSaturdayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Next Saturday',
+              context.read<DatePickerCubit>().getNextSaturday(),
+
+              state.selectedDate,
+              isNextSaturdayValid,
+            ),
+          );
+        }
+        if (showSundayButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'Next Sunday',
+              context.read<DatePickerCubit>().getNextSunday(),
+
+              state.selectedDate,
+              isNextSundayValid,
+            ),
+          );
+        }
+        if (showNoDateButton == true) {
+          buttonRows.add(
+            _quickDateButton(
+              context,
+              'No Date',
+              context.read<DatePickerCubit>().getNextWednesday(),
+
+              state.selectedDate,
+              isNextWednesdayValid,
+            ),
+          );
+        }
+
+        print("Button Rows: ${buttonRows.length}");
+
         return Container(
           decoration: BoxDecoration(
             // color: Colors.white,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(
-                // color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                spreadRadius: 1,
-              ),
+              // BoxShadow(
+              //   // color: Colors.black.withOpacity(0.1),
+              //   // blurRadius: 10,
+              //   spreadRadius: 1,
+              // ),
             ],
             // border: Border.all(color: Colors.purple.withOpacity(0.5), width: 2),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Quick selection buttons
-              for (int i = 0; i < buttonRows.length; i += 2) ...[
-                if (i > 0) const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    buttonRows[i],
-                    SizedBox(width: 8),
-                    if (i + 1 < buttonRows.length)
-                      buttonRows[i + 1] // Prevent out-of-range
-                    else
-                      Expanded(child: Container()),
-                  ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Quick selection buttons
+                for (int i = 0; i < buttonRows.length; i += 2) ...[
+                  if (i > 0) const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(child: buttonRows[i]),
+                        SizedBox(width: 12),
+                        if (i + 1 < buttonRows.length)
+                          Expanded(
+                            child: buttonRows[i + 1],
+                          ) // Prevent out-of-range
+                        else
+                          Expanded(child: Container()),
+                      ],
+                    ),
+                  ),
+                ],
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 12,
+                //     vertical: 8,
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: _quickDateButton(
+                //           context,
+                //           "Today",
+                //           state.today,
+                //           state.selectedDate,
+                //         ),
+                //       ),
+                //       const SizedBox(width: 12),
+                //       Expanded(
+                //         child: _quickDateButton(
+                //           context,
+                //           "Next Monday",
+                //           context.read<DatePickerCubit>().getNextMonday(),
+                //           state.selectedDate,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // // Padding(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 12,
+                //     vertical: 8,
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: _quickDateButton(
+                //           context,
+                //           "Next Tuesday",
+                //           context.read<DatePickerCubit>().getNextTuesday(),
+                //           state.selectedDate,
+                //         ),
+                //       ),
+                //       const SizedBox(width: 12),
+                //       Expanded(
+                //         child: _quickDateButton(
+                //           context,
+                //           "After 1 week",
+                //           context.read<DatePickerCubit>().getNextWeek(),
+                //           state.selectedDate,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
+                // Built-in Calendar DatePicker
+                CalendarDatePicker(
+                  key: calendarKey,
+                  initialDate: initialDate,
+                  firstDate: minDate ?? DateTime(2020),
+                  lastDate: maxDate ?? DateTime(2030),
+                  onDateChanged: (DateTime newDate) {
+                    context.read<DatePickerCubit>().selectDate(newDate);
+                  },
+                  currentDate: state.selectedDate,
+                ),
+
+                // Bottom bar
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today),
+                      const SizedBox(width: 8),
+                      Text(
+                        DateFormat('d MMM yyyy').format(state.selectedDate),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        child: const Text("Cancel"),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                        ),
+                        child: const Text("Save"),
+                        onPressed:
+                            () => Navigator.of(context).pop(state.selectedDate),
+                      ),
+                    ],
+                  ),
                 ),
               ],
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: _quickDateButton(
-                        context,
-                        "Today",
-                        state.today,
-                        state.selectedDate,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _quickDateButton(
-                        context,
-                        "Next Monday",
-                        context.read<DatePickerCubit>().getNextMonday(),
-                        state.selectedDate,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: _quickDateButton(
-                        context,
-                        "Next Tuesday",
-                        context.read<DatePickerCubit>().getNextTuesday(),
-                        state.selectedDate,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _quickDateButton(
-                        context,
-                        "After 1 week",
-                        context.read<DatePickerCubit>().getNextWeek(),
-                        state.selectedDate,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Built-in Calendar DatePicker
-              CalendarDatePicker(
-                key: calendarKey,
-                initialDate: state.selectedDate,
-                firstDate: minDate ?? DateTime(2020),
-                lastDate: maxDate ?? DateTime(2030),
-                onDateChanged: (DateTime newDate) {
-                  context.read<DatePickerCubit>().selectDate(newDate);
-                },
-                currentDate: state.selectedDate,
-              ),
-
-              // Resolution indicator
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    // color: Colors.purple.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text("396 Hug × 472 Hug"),
-                ),
-              ),
-
-              // Bottom bar
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.calendar_today),
-                    const SizedBox(width: 8),
-                    Text(
-                      DateFormat('d MMM yyyy').format(state.selectedDate),
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      child: const Text("Cancel"),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                      ),
-                      child: const Text("Save"),
-                      onPressed:
-                          () => Navigator.of(context).pop(state.selectedDate),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },
@@ -480,36 +652,30 @@ class DatePickerContent extends StatelessWidget {
     String text,
     DateTime date,
     DateTime selectedDate,
+    bool isEnabled,
   ) {
     final bool isSelected =
         date.day == selectedDate.day &&
         date.month == selectedDate.month &&
         date.year == selectedDate.year;
 
-    return GestureDetector(
-      onTap: () {
-        context.read<DatePickerCubit>().selectDate(date);
-        calendarKey = GlobalKey();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          // color:
-          //     isSelected
-          //         ? Colors.blue.withOpacity(0.1)
-          //         : Colors.blue.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.blue,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
+    return OutlinedButton(
+      style: ButtonStyle(
+        // backgroundColor: WidgetStatePropertyAll(
+        //   Theme.of(context).colorScheme.onSecondary,
+        // ),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
       ),
+      onPressed:
+          isEnabled
+              ? () {
+                context.read<DatePickerCubit>().selectDate(date);
+                calendarKey = GlobalKey();
+              }
+              : null,
+      child: Text(text),
     );
   }
 }
