@@ -15,7 +15,7 @@ class DatePickerCubit extends Cubit<DatePickerState> {
         ),
       );
 
-  void selectDate(DateTime date) {
+  void selectDate(DateTime? date) {
     emit(state.copyWith(selectedDate: date));
   }
 
@@ -91,5 +91,9 @@ class DatePickerCubit extends Cubit<DatePickerState> {
       return false;
     }
     return true;
+  }
+
+    void clearDate() {
+    emit(state.copyWith(selectedDate: null));
   }
 }

@@ -10,7 +10,7 @@ class EmployeeDatesState extends Equatable {
   EmployeeDatesState copyWith({
     DateTime? hireDate,
     DateTime? leavingDate,
-    bool clearLeavingDate = false,
+    bool clearLeavingDate = true,
   }) {
     return EmployeeDatesState(
       hireDate: hireDate ?? this.hireDate,

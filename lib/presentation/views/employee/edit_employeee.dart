@@ -152,7 +152,7 @@ class _EditEmployeeState extends State<EditEmployee> {
                                     onDateTimeSelected: (dateSelected) {
                                       // employee.hireDate = dateSelected;
                                       context.read<EmployeeDatesBloc>().add(
-                                        HireDateChanged(dateSelected),
+                                        HireDateChanged(dateSelected!),
                                       );
                                     },
                                   ),

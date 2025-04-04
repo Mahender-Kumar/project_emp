@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -159,6 +158,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               children: [
                                 Flexible(
                                   child: DatePicker(
+                                    key: ValueKey(datesState.hireDate),
                                     validate: true,
                                     showMondayButton: true,
                                     showTuesdayButton: true,
@@ -173,7 +173,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                     ),
                                     onDateTimeSelected: (dateSelected) {
                                       context.read<EmployeeDatesBloc>().add(
-                                        HireDateChanged(dateSelected),
+                                        HireDateChanged(dateSelected!),
                                       );
                                     },
                                   ),
@@ -206,6 +206,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                               : 'No Date',
                                     ),
                                     onDateTimeSelected: (dateSelected) {
+                                      // print(dateSelected);
                                       // employee.leavingDate = dateSelected;
                                       context.read<EmployeeDatesBloc>().add(
                                         LeavingDateChanged(dateSelected),

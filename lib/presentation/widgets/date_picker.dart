@@ -13,7 +13,7 @@ class DatePicker extends StatelessWidget {
   final dynamic initialDate;
   final bool enable;
   final bool isDense;
-  final void Function(DateTime) onDateTimeSelected;
+  final void Function(DateTime?) onDateTimeSelected;
   final bool showTodayButton;
   final bool showMondayButton;
   final bool showTuesdayButton;
@@ -119,6 +119,9 @@ class DatePicker extends StatelessWidget {
         if (date != null) {
           controller.text = _controllerText(date);
           onDateTimeSelected(date);
+        } else {
+          controller.text = 'No Date';
+          onDateTimeSelected(null);
         }
       },
     );

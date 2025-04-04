@@ -109,6 +109,7 @@ class MyDatePickerDialog extends StatelessWidget {
     // print("Show Date Picker Dialog: $showTodayButton");
     return showDialog<DateTime>(
       context: context,
+      barrierDismissible: false,
       builder:
           (context) => MyDatePickerDialog(
             initialDate: initialDate,
@@ -251,7 +252,7 @@ class DatePickerContent extends StatelessWidget {
               context,
               'Today',
               state.today,
-              state.selectedDate,
+              state.selectedDate!,
               isTodayValid,
             ),
           );
@@ -262,7 +263,7 @@ class DatePickerContent extends StatelessWidget {
               context,
               "Next Monday",
               context.read<DatePickerCubit>().getNextMonday(),
-              state.selectedDate,
+              state.selectedDate!,
               isNextMondayValid,
             ),
           );
@@ -275,7 +276,7 @@ class DatePickerContent extends StatelessWidget {
               context,
               "Next Tuesday",
               context.read<DatePickerCubit>().getNextTuesday(),
-              state.selectedDate,
+              state.selectedDate!,
               isNextTuesdayValid,
             ),
           );
@@ -286,7 +287,7 @@ class DatePickerContent extends StatelessWidget {
               context,
               "After 1 week",
               context.read<DatePickerCubit>().getNextWeek(),
-              state.selectedDate,
+              state.selectedDate!,
               isNextWeekValid,
             ),
           );
@@ -298,7 +299,7 @@ class DatePickerContent extends StatelessWidget {
               context,
               'Next Wednesday',
               context.read<DatePickerCubit>().getNextWednesday(),
-              state.selectedDate,
+              state.selectedDate!,
               isNextWednesdayValid,
             ),
           );
@@ -310,7 +311,7 @@ class DatePickerContent extends StatelessWidget {
               'Next Thursday',
               context.read<DatePickerCubit>().getNextThursday(),
 
-              state.selectedDate,
+              state.selectedDate!,
               isNextThursdayValid,
             ),
           );
@@ -324,7 +325,7 @@ class DatePickerContent extends StatelessWidget {
               'Next Friday',
               context.read<DatePickerCubit>().getNextFriday(),
 
-              state.selectedDate,
+              state.selectedDate!,
               isNextFridayValid,
             ),
           );
@@ -336,7 +337,7 @@ class DatePickerContent extends StatelessWidget {
               'Next Saturday',
               context.read<DatePickerCubit>().getNextSaturday(),
 
-              state.selectedDate,
+              state.selectedDate!,
               isNextSaturdayValid,
             ),
           );
@@ -348,7 +349,7 @@ class DatePickerContent extends StatelessWidget {
               'Next Sunday',
               context.read<DatePickerCubit>().getNextSunday(),
 
-              state.selectedDate,
+              state.selectedDate!,
               isNextSundayValid,
             ),
           );
@@ -460,7 +461,9 @@ class DatePickerContent extends StatelessWidget {
                         Icon(Icons.calendar_today, size: defaultIconSize),
                         const SizedBox(width: 8),
                         Text(
-                          DateFormat('d MMM yyyy').format(state.selectedDate),
+                          DateFormat(
+                            'd MMM yyyy',
+                          ).format(state.selectedDate ?? DateTime.now()),
                           style: const TextStyle(fontSize: 16),
                         ),
                         const Spacer(),
@@ -478,7 +481,13 @@ class DatePickerContent extends StatelessWidget {
                               borderRadius: BorderRadius.circular(btnRadius),
                             ),
                           ),
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () {
+                            if (!showNoDateButton) {
+                              Navigator.of(context).pop(DateTime.now());
+                            } else {
+                              Navigator.of(context).pop();
+                            }
+                          },
                           child: Text(
                             "Cancel",
                             style: TextStyle(
@@ -520,7 +529,7 @@ class DatePickerContent extends StatelessWidget {
   Widget _buildNoDateButton(
     BuildContext context,
     String text,
-    DateTime selectedDate,
+    DateTime? selectedDate,
   ) {
     return OutlinedButton(
       style: ButtonStyle(
@@ -529,6 +538,7 @@ class DatePickerContent extends StatelessWidget {
         ),
       ),
       onPressed: () {
+        context.read<DatePickerCubit>().clearDate();
         // When pressed, return null through the Navigator
         Navigator.of(context).pop(null);
       },
